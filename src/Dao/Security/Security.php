@@ -1,50 +1,15 @@
 <?php
 namespace Dao\Security;
 
-if (version_compare(phpversion(), '7.4.0', '<')) {
-        define('PASSWORD_ALGORITHM', 1);  //BCRYPT
-} else {
-    define('PASSWORD_ALGORITHM', '2y');  //BCRYPT
-}
-/*
-usercod     bigint(10) AI PK
-useremail   varchar(80)
-username    varchar(80)
-userpswd    varchar(128)
-userfching  datetime
-userpswdest char(3)
-userpswdexp datetime
-userest     char(3)
-useractcod  varchar(128)
-userpswdchg varchar(128)
-usertipo    char(3)
-
- */
-
 use Exception;
 
 class Security extends \Dao\Table
 {
-    static public function getUsuarios($filter = "", $page = -1, $items = 0)
+
+
+    static public function getAllUsuarios()
     {
-        $sqlstr = "";
-        if ($filter == "" && $page == -1 && $items == 0) {
-            $sqlstr = "SELECT * FROM usuario;";
-        } else {
-            //TODO: Terminar consultas FACET
-            if ($page = -1 and $items = 0) {
-                $sqlstr = sprintf("SELECT * FROM usuarios %s;", $filter);
-            } else {
-                $offset = ($page -1 * $items);
-                $sqlstr = sprintf(
-                    "SELECT * FROM usuarios %s limit %d, %d;",
-                    $filter,
-                    $offset,
-                    $items
-                );
-            }
-        }
-        return self::obtenerRegistros($sqlstr, array());
+        return self::obtenerRegistros("SELECT * FROM usuarios;", []);
     }
 
     static public function newUsuario($email, $password)
@@ -52,46 +17,45 @@ class Security extends \Dao\Table
         if (!\Utilities\Validators::IsValidEmail($email)) {
             throw new Exception("Correo no es válido");
         }
+
         if (!\Utilities\Validators::IsValidPassword($password)) {
-            throw new Exception("Contraseña debe ser almenos 8 caracteres, 1 número, 1 mayúscula, 1 símbolo especial");
+            throw new Exception("Contraseña inválida");
         }
 
-        $newUser = self::_usuarioStruct();
-        //Tratamiento de la Contraseña
         $hashedPassword = self::_hashPassword($password);
 
-        unset($newUser["usercod"]);
-        unset($newUser["userfching"]);
-        unset($newUser["userpswdchg"]);
+        $sql = "INSERT INTO usuarios 
+                (nombre, email, password, rol_id, estado, creado_en)
+                VALUES (:nombre, :email, :password, 2, 1, NOW());";
 
-        $newUser["useremail"] = $email;
-        $newUser["username"] = "John Doe";
-        $newUser["userpswd"] = $hashedPassword;
-        $newUser["userpswdest"] = Estados::ACTIVO;
-        $newUser["userpswdexp"] = date('Y-m-d', time() + 7776000);  //(3*30*24*60*60) (m d h mi s)
-        $newUser["userest"] = Estados::ACTIVO;
-        $newUser["useractcod"] = hash("sha256", $email.time());
-        $newUser["usertipo"] = UsuarioTipo::PUBLICO;
+        $result = self::executeNonQuery($sql, [
+            "nombre" => explode("@", $email)[0],
+            "email" => $email,
+            "password" => $hashedPassword
+        ]);
 
-        $sqlIns = "INSERT INTO `usuario` (`useremail`, `username`, `userpswd`,
-            `userfching`, `userpswdest`, `userpswdexp`, `userest`, `useractcod`,
-            `userpswdchg`, `usertipo`)
-            VALUES
-            ( :useremail, :username, :userpswd,
-            now(), :userpswdest, :userpswdexp, :userest, :useractcod,
-            now(), :usertipo);";
+        $usuario = self::getUsuarioByEmail($email);
 
-        return self::executeNonQuery($sqlIns, $newUser);
+        if ($usuario) {
+            self::executeNonQuery(
+                "INSERT INTO roles_usuarios (usercod, rolescod, roleuserest)
+                 VALUES (:usercod, 'usuario', 'ACT');",
+                ["usercod" => $usuario["id"]]
+            );
+        }
 
+        return $result;
     }
 
     static public function getUsuarioByEmail($email)
     {
-        $sqlstr = "SELECT * from `usuario` where `useremail` = :useremail ;";
-        $params = array("useremail"=>$email);
-
-        return self::obtenerUnRegistro($sqlstr, $params);
+        return self::obtenerUnRegistro(
+            "SELECT * FROM usuarios WHERE email=:email;",
+            ["email"=>$email]
+        );
     }
+
+
 
     static private function _saltPassword($password)
     {
@@ -104,159 +68,173 @@ class Security extends \Dao\Table
 
     static private function _hashPassword($password)
     {
-        return password_hash(self::_saltPassword($password), PASSWORD_ALGORITHM);
+        return password_hash(self::_saltPassword($password), PASSWORD_BCRYPT);
     }
 
-    static public function verifyPassword($raw_password, $hash_password)
+    static public function verifyPassword($raw, $hash)
     {
-        return password_verify(
-            self::_saltPassword($raw_password),
-            $hash_password
-        );
+        return password_verify(self::_saltPassword($raw), $hash);
     }
 
 
-    static private function _usuarioStruct()
+    static public function getAllRoles()
     {
-        return array(
-            "usercod"      => "",
-            "useremail"    => "",
-            "username"     => "",
-            "userpswd"     => "",
-            "userfching"   => "",
-            "userpswdest"  => "",
-            "userpswdexp"  => "",
-            "userest"      => "",
-            "useractcod"   => "",
-            "userpswdchg"  => "",
-            "usertipo"     => "",
+        return self::obtenerRegistros("SELECT * FROM roles;", []);
+    }
+
+    static public function addRolToUser($userId, $rolescod)
+    {
+        return self::executeNonQuery(
+            "INSERT INTO roles_usuarios (usercod, rolescod, roleuserest)
+             VALUES (:usercod, :rolescod, 'ACT');",
+            [
+                "usercod"=>$userId,
+                "rolescod"=>$rolescod
+            ]
         );
+    }
+
+    static public function removeRolFromUser($userId, $rolescod)
+    {
+        return self::executeNonQuery(
+            "UPDATE roles_usuarios 
+             SET roleuserest='INA'
+             WHERE usercod=:usercod AND rolescod=:rolescod;",
+            [
+                "usercod"=>$userId,
+                "rolescod"=>$rolescod
+            ]
+        );
+    }
+
+    static public function getRolesByUsuario($userId)
+    {
+        return self::obtenerRegistros(
+            "SELECT * FROM roles_usuarios 
+             WHERE usercod=:usercod AND roleuserest='ACT';",
+            ["usercod"=>$userId]
+        );
+    }
+
+    static public function isUsuarioInRol($userId, $rolescod)
+    {
+        $data = self::obtenerRegistros(
+            "SELECT * FROM roles_usuarios 
+             WHERE usercod=:usercod 
+             AND rolescod=:rolescod 
+             AND roleuserest='ACT'
+             LIMIT 1;",
+            [
+                "usercod"=>$userId,
+                "rolescod"=>$rolescod
+            ]
+        );
+
+        return count($data) > 0;
+    }
+
+    static public function isAdmin($userId)
+    {
+        return self::isUsuarioInRol($userId, "admin");
+    }
+
+
+
+    static public function getAllFunciones()
+    {
+        return self::obtenerRegistros("SELECT * FROM funciones;", []);
     }
 
     static public function getFeature($fncod)
     {
-        $sqlstr = "SELECT * from funciones where fncod=:fncod;";
-        $featuresList = self::obtenerRegistros($sqlstr, array("fncod"=>$fncod));
-        return count($featuresList) > 0;
+        $data = self::obtenerRegistros(
+            "SELECT * FROM funciones WHERE fncod=:fncod;",
+            ["fncod"=>$fncod]
+        );
+
+        return count($data) > 0;
     }
 
-    static public function addNewFeature($fncod, $fndsc, $fnest, $fntyp )
+    static public function getFeatureByUsuario($userId, $fncod)
     {
-        $sqlins = "INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`)
-            VALUES (:fncod , :fndsc , :fnest , :fntyp );";
+        $data = self::obtenerRegistros(
+            "SELECT * FROM funciones_roles fr
+             INNER JOIN roles_usuarios ru 
+             ON fr.rolescod = ru.rolescod
+             WHERE ru.usercod = :usercod
+             AND fr.fncod = :fncod
+             AND fr.fnrolest = 'ACT'
+             AND ru.roleuserest = 'ACT'
+             LIMIT 1;",
+            [
+                "usercod"=>$userId,
+                "fncod"=>$fncod
+            ]
+        );
 
+        return count($data) > 0;
+    }
+
+    static public function addFeatureToRol($fncod, $rolescod)
+    {
         return self::executeNonQuery(
-            $sqlins,
-            array(
-                "fncod" => $fncod,
-                "fndsc" => $fndsc,
-                "fnest" => $fnest,
-                "fntyp" => $fntyp
-            )
-        );
-    }
-
-    static public function getFeatureByUsuario($userCod, $fncod)
-    {
-        $sqlstr = "select * from
-        funciones_roles a inner join roles_usuarios b on a.rolescod = b.rolescod
-        where a.fnrolest = 'ACT' and b.roleuserest='ACT' and b.usercod=:usercod
-        and a.fncod=:fncod limit 1;";
-        $resultados = self::obtenerRegistros(
-            $sqlstr,
-            array(
-                "usercod"=> $userCod,
-                "fncod" => $fncod
-            )
-        );
-        return count($resultados) > 0;
-    }
-
-    static public function getRol($rolescod)
-    {
-        $sqlstr = "SELECT * from roles where rolescod=:rolescod;";
-        $featuresList = self::obtenerRegistros($sqlstr, array("rolescod" => $rolescod));
-        return count($featuresList) > 0;
-    }
-
-    static public function addNewRol($rolescod, $rolesdsc, $rolesest)
-    {
-        $sqlins = "INSERT INTO `roles` (`rolescod`, `rolesdsc`, `rolesest`)
-        VALUES (:rolescod, :rolesdsc, :rolesest);";
-
-        return self::executeNonQuery(
-            $sqlins,
-            array(
-                "rolescod" => $rolescod,
-                "rolesdsc" => $rolesdsc,
-                "rolesest" => $rolesest
-            )
-        );
-    }
-
-    static public function isUsuarioInRol($userCod, $rolescod)
-    {
-        $sqlstr = "select * from roles a inner join
-        roles_usuarios b on a.rolescod = b.rolescod where a.rolesest = 'ACT'
-        and b.usercod=:usercod and a.rolescod=:rolescod limit 1;";
-        $resultados = self::obtenerRegistros(
-            $sqlstr,
-            array(
-                "usercod" => $userCod,
-                "rolescod" => $rolescod
-            )
-        );
-        return count($resultados) > 0;
-    }
-
-    static public function getRolesByUsuario($userCod)
-    {
-        $sqlstr = "select * from roles a inner join
-        roles_usuarios b on a.rolescod = b.rolescod where a.rolesest = 'ACT'
-        and b.usercod=:usercod;";
-        $resultados = self::obtenerRegistros(
-            $sqlstr,
-            array(
-                "usercod" => $userCod
-            )
-        );
-        return $resultados;
-    }
-
-    static public function removeRolFromUser($userCod, $rolescod)
-    {
-        $sqldel = "UPDATE roles_usuarios set roleuserest='INA' 
-        where rolescod=:rolescod and usercod=:usercod;";
-        return self::executeNonQuery(
-            $sqldel,
-            array("rolescod"=>$rolescod, "usercod"=>$userCod)
+            "INSERT INTO funciones_roles (fncod, rolescod, fnrolest)
+             VALUES (:fncod, :rolescod, 'ACT');",
+            [
+                "fncod"=>$fncod,
+                "rolescod"=>$rolescod
+            ]
         );
     }
 
     static public function removeFeatureFromRol($fncod, $rolescod)
     {
-        $sqldel = "UPDATE funciones_roles set roleuserest='INA'
-        where fncod=:fncod and rolescod=:rolescod;";
         return self::executeNonQuery(
-            $sqldel,
-            array("fncod" => $fncod, "rolescod" => $rolescod)
+            "UPDATE funciones_roles 
+             SET fnrolest='INA'
+             WHERE fncod=:fncod AND rolescod=:rolescod;",
+            [
+                "fncod"=>$fncod,
+                "rolescod"=>$rolescod
+            ]
         );
     }
-    static public function getUnAssignedFeatures($rolescod)
-    {
-        
-    }
-    static public function getUnAssignedRoles($userCod)
-    {
 
-    }
-    private function __construct()
+
+
+    static public function updateUserRolId($userId, $rolId)
     {
+        return self::executeNonQuery(
+            "UPDATE usuarios SET rol_id = :rol_id WHERE id = :id",
+            [
+                "rol_id" => $rolId,
+                "id" => $userId
+            ]
+        );
     }
-    private function __clone()
+
+    static public function deleteUsuario($userId)
     {
+        return self::executeNonQuery(
+            "DELETE FROM usuarios WHERE id = :id",
+            ["id" => $userId]
+        );
     }
+
+    static public function updateUsuario($userId, $email, $estado)
+    {
+        return self::executeNonQuery(
+            "UPDATE usuarios 
+             SET email = :email, estado = :estado 
+             WHERE id = :id",
+            [
+                "id" => $userId,
+                "email" => $email,
+                "estado" => $estado
+            ]
+        );
+    }
+
+    private function __construct(){}
+    private function __clone(){}
 }
-
-
-?>

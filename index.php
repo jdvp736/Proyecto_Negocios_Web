@@ -2,17 +2,15 @@
 
 /**
  * PHP Version 7.2
- *
- * @category Router
- * @package  SimplePHPOOPMvc
- * @author   Orlando J Betancourth <orlando.betancourth@gmail.com>
- * @license  MIT http://
- * @version  CVS:1.0.0
- * @link     http://
  */
 
 use Utilities\Context;
 use Utilities\Site;
+
+/* 🔥 MOSTRAR ERRORES SIEMPRE */
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require __DIR__ . '/vendor/autoload.php';
 session_start();
@@ -24,21 +22,32 @@ try {
     $instance->run();
     die();
 } catch (\Controllers\PrivateNoAuthException $ex) {
-    $instance = new \Controllers\NoAuth();
-    $instance->run();
+
+    echo "<pre>";
+    print_r($ex);
+    echo "</pre>";
     die();
+
 } catch (\Controllers\PrivateNoLoggedException $ex) {
-    $redirTo = urlencode(Context::getContextByKey("request_uri"));
-    Site::redirectTo("index.php?page=sec.login&redirto=" . $redirTo);
+
+    echo "<pre>";
+    print_r($ex);
+    echo "</pre>";
     die();
+
 } catch (Exception $ex) {
-    Site::logError($ex, 500);
-    $instance = new \Controllers\Error();
-    $instance->run();
+
+    echo "<h2>Exception:</h2>";
+    echo "<pre>";
+    print_r($ex);
+    echo "</pre>";
     die();
+
 } catch (Error $ex) {
-    Site::logError($ex, 500);
-    $instance = new \Controllers\Error();
-    $instance->run();
+
+    echo "<h2>Error:</h2>";
+    echo "<pre>";
+    print_r($ex);
+    echo "</pre>";
     die();
 }

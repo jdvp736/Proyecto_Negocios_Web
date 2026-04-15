@@ -6,16 +6,6 @@ use Dao\Table;
 
 class Buses extends Table
 {
-    /*
-    buses
-
-    id int AUTO_INCREMENT PRIMARY KEY
-    placa varchar(20)
-    tipo_id int
-    estado varchar(50)
-    */
-
-    // 🔍 LISTAR TODOS
     public static function getAllBuses(): array
     {
         $buses = [];
@@ -40,7 +30,6 @@ class Buses extends Table
         return self::obtenerUnRegistro($sqlstr, $params);
     }
 
-    // CREAR BUS
     public static function crearBus(
         $placa,
         $tipo_id,
@@ -58,7 +47,6 @@ class Buses extends Table
         return $affectedRows;
     }
 
-    // ACTUALIZAR BUS
     public static function actualizarBus(
         $id,
         $placa,
@@ -81,7 +69,6 @@ class Buses extends Table
         return $affectedRows;
     }
 
-    // ELIMINAR BUS
     public static function eliminarBus($id): int
     {
         $sqlstr = "DELETE FROM buses WHERE id = :id;";
@@ -92,7 +79,6 @@ class Buses extends Table
         return $affectedRows;
     }
 
-    // LISTAR TIPOS DE BUS (para selects)
     public static function getTiposBus(): array
     {
         $tipos = [];

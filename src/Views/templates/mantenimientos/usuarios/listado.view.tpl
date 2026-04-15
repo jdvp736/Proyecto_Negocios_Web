@@ -1,7 +1,7 @@
-<h1>📦 Listado de Órdenes</h1>
+<h1>👤 Listado de Usuarios</h1>
 
-<a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=INS">
-    ➕ Nueva Orden
+<a href="index.php?page=Mantenimientos-Usuarios-Formulario&mode=INS">
+    ➕ Nuevo Usuario
 </a>
 
 <br><br>
@@ -10,25 +10,28 @@
     <thead style="background-color: #333; color: white;">
         <tr>
             <th>ID</th>
-            <th>Usuario</th>
-            <th>Total</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
             <th>Estado</th>
-            <th>Fecha</th>
+            <th>Fecha Creación</th>
             <th>Acciones</th>
         </tr>
     </thead>
 
     <tbody>
 
-        {{foreach ordenes}}
+        {{foreach usuarios}}
         <tr>
             <td>{{id}}</td>
 
             <td><strong>{{nombre}}</strong></td>
 
+            <td>{{email}}</td>
+
             <td>
-                <span style="color: blue; font-weight: bold;">
-                    L. {{total}}
+                <span style="color: blue;">
+                    {{rol_id}}
                 </span>
             </td>
 
@@ -38,42 +41,39 @@
                 </span>
             </td>
 
-            <td>{{fecha}}</td>
+            <td>{{creado_en}}</td>
 
             <td>
 
-                <!-- VER -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=DSP&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Usuarios-Formulario&mode=DSP&id={{id}}">
                     👁️ Ver
                 </a>
 
                 |
 
-                <!-- EDITAR -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=UPD&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Usuarios-Formulario&mode=UPD&id={{id}}">
                     ✏️ Editar
                 </a>
 
                 |
 
-                <!-- ELIMINAR -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=DEL&id={{id}}"
-                   onclick="return confirm('¿Seguro que deseas eliminar esta orden?');"
+                <a href="index.php?page=Mantenimientos-Usuarios-Formulario&mode=DEL&id={{id}}"
+                   onclick="return confirm('¿Eliminar este usuario?');"
                    style="color: red;">
                     🗑️ Eliminar
                 </a>
 
             </td>
         </tr>
-        {{endfor ordenes}}
+        {{endfor usuarios}}
 
-        {{ifnot ordenes}}
+        {{ifnot usuarios}}
         <tr>
-            <td colspan="6" style="text-align: center; color: gray;">
-                ⚠️ No hay órdenes registradas
+            <td colspan="7" style="text-align: center; color: gray;">
+                ⚠️ No hay usuarios registrados
             </td>
         </tr>
-        {{endifnot ordenes}}
+        {{endifnot usuarios}}
 
     </tbody>
 </table>

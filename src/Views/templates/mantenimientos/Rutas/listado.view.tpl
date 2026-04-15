@@ -1,7 +1,7 @@
-<h1>🚌 Listado de Buses</h1>
+<h1>🛣️ Listado de Rutas</h1>
 
-<a href="index.php?page=Mantenimientos-Buses-Formulario&mode=INS">
-    ➕ Nuevo Bus
+<a href="index.php?page=Mantenimientos-Rutas-Formulario&mode=INS">
+    ➕ Nueva Ruta
 </a>
 
 <br><br>
@@ -10,66 +10,63 @@
     <thead style="background-color: #333; color: white;">
         <tr>
             <th>ID</th>
-            <th>Placa</th>
-            <th>Tipo</th>
-            <th>Estado</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Distancia (km)</th>
             <th>Acciones</th>
         </tr>
     </thead>
 
     <tbody>
 
-        {{foreach buses}}
+        {{foreach rutas}}
         <tr>
             <td>{{id}}</td>
-            <td><strong>{{placa}}</strong></td>
-            <td>{{tipo}}</td>
+
+            <td><strong>{{origen}}</strong></td>
+
+            <td>{{destino}}</td>
+
             <td>
-                <span style="color: green; font-weight: bold;">
-                    {{estado}}
+                <span style="color: blue; font-weight: bold;">
+                    {{distancia_km}} km
                 </span>
             </td>
+
             <td>
 
-                <!-- VER -->
-                <a href="index.php?page=Mantenimientos-Buses-Formulario&mode=DSP&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Rutas-Formulario&mode=DSP&id={{id}}">
                     👁️ Ver
                 </a>
 
                 |
 
-                <!-- EDITAR -->
-                <a href="index.php?page=Mantenimientos-Buses-Formulario&mode=UPD&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Rutas-Formulario&mode=UPD&id={{id}}">
                     ✏️ Editar
                 </a>
 
                 |
 
-                <!-- ELIMINAR -->
-                <a href="index.php?page=Mantenimientos-Buses-Formulario&mode=DEL&id={{id}}"
-                   onclick="return confirm('¿Seguro que deseas eliminar este bus?');"
+                <a href="index.php?page=Mantenimientos-Rutas-Formulario&mode=DEL&id={{id}}"
+                   onclick="return confirm('¿Eliminar esta ruta?');"
                    style="color: red;">
                     🗑️ Eliminar
                 </a>
 
             </td>
         </tr>
-        {{endfor buses}}
-        
+        {{endfor rutas}}
 
-        {{ifnot buses}}
+        {{ifnot rutas}}
         <tr>
             <td colspan="5" style="text-align: center; color: gray;">
-                ⚠️ No hay buses registrados
+                ⚠️ No hay rutas registradas
             </td>
         </tr>
-        {{endifnot buses}}
-
-        
+        {{endifnot rutas}}
 
     </tbody>
 </table>
-<br>
 
 <div style="text-align:center; margin-top:20px;">
     <a href="index.php?page=Mantenimientos-Dashboard-Dashboard"

@@ -1,27 +1,28 @@
 <?php
 
-namespace Controllers\Mantenimientos\Ordenes;
+namespace Controllers\Mantenimientos\Pagos;
 
-use Controllers\PublicController;
+use Controllers\PrivateController;
 use Views\Renderer;
-use Dao\Mantenimientos\Ordenes\Ordenes as OrdenesDAO;
+use Dao\Mantenimientos\Pagos\Pagos as PagosDAO;
 
-const LIST_VIEW_TEMPLATE = "mantenimientos/ordenes/listado";
+const LIST_VIEW_TEMPLATE = "mantenimientos/pagos/listado";
 
-class Listado extends PublicController
+class Listado extends PrivateController
 {
-    private array $ordenesList = [];
+    private array $pagosList = [];
 
     public function run(): void
     {
-        $this->ordenesList = OrdenesDAO::getAllOrdenes();
+        $this->pagosList = PagosDAO::getAllPagos();
+
         Renderer::render(LIST_VIEW_TEMPLATE, $this->prepareViewData());
     }
 
     private function prepareViewData()
     {
         return [
-            "ordenes" => $this->ordenesList
+            "pagos" => $this->pagosList
         ];
     }
 }

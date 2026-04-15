@@ -5,11 +5,6 @@
       "nav_url": "index.php?page=Sec_Login",
       "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"
     },
-     {
-            "id": "Menu_Products",
-      "nav_url": "index.php?page=Products_Products",
-      "nav_label":"<i class=\"fas fa-table\"></i>&nbsp;WW Productos"
-    },
     {
       "id": "Menu_SignUp",
       "nav_url": "index.php?page=Sec_Register",
@@ -21,6 +16,14 @@
       "id":"Menu_PaymentCheckout",
       "nav_url": "index.php?page=Checkout_Checkout",
       "nav_label": "Carretilla de Compra"
+    },
+
+    {
+    "id": "Controllers\\Mantenimientos\\Dashboard\\Dashboard",
+    "nav_url": "index.php?page=Mantenimientos-Dashboard-Dashboard",
+    "nav_label": "Mantenimientos"
     }
+
+
   ]
 }

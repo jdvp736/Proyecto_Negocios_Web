@@ -6,7 +6,6 @@ use Exception;
 class Security extends \Dao\Table
 {
 
-
     static public function getAllUsuarios()
     {
         return self::obtenerRegistros("SELECT * FROM usuarios;", []);
@@ -56,20 +55,18 @@ class Security extends \Dao\Table
     }
 
     static public function addNewFeature($fncod, $fndsc = "", $fntyp = "CTR")
-{
-    return self::executeNonQuery(
-        "INSERT INTO funciones (fncod, fndsc, fnest, fntyp)
-         VALUES (:fncod, :fndsc, 'ACT', :fntyp)
-         ON DUPLICATE KEY UPDATE fndsc = :fndsc;",
-        [
-            "fncod" => $fncod,
-            "fndsc" => $fndsc,
-            "fntyp" => $fntyp
-        ]
-    );
-}
-
-
+    {
+        return self::executeNonQuery(
+            "INSERT INTO funciones (fncod, fndsc, fnest, fntyp)
+             VALUES (:fncod, :fndsc, 'ACT', :fntyp)
+             ON DUPLICATE KEY UPDATE fndsc = :fndsc;",
+            [
+                "fncod" => $fncod,
+                "fndsc" => $fndsc,
+                "fntyp" => $fntyp
+            ]
+        );
+    }
 
     static private function _saltPassword($password)
     {
@@ -89,7 +86,6 @@ class Security extends \Dao\Table
     {
         return password_verify(self::_saltPassword($raw), $hash);
     }
-
 
     static public function getAllRoles()
     {
@@ -152,8 +148,6 @@ class Security extends \Dao\Table
         return self::isUsuarioInRol($userId, "admin");
     }
 
-
-
     static public function getAllFunciones()
     {
         return self::obtenerRegistros("SELECT * FROM funciones;", []);
@@ -169,8 +163,17 @@ class Security extends \Dao\Table
         return count($data) > 0;
     }
 
+    // 🔥 MODIFICACIÓN CLAVE AQUÍ
     static public function getFeatureByUsuario($userId, $fncod)
     {
+        // ✅ PERMITIR DASHBOARDS
+        if (
+            $fncod === "Controllers\\Home\\Dashboard" ||
+            $fncod === "Controllers\\Mantenimientos\\Dashboard\\Dashboard"
+        ) {
+            return true;
+        }
+
         $data = self::obtenerRegistros(
             "SELECT * FROM funciones_roles fr
              INNER JOIN roles_usuarios ru 
@@ -213,8 +216,6 @@ class Security extends \Dao\Table
             ]
         );
     }
-
-
 
     static public function updateUserRolId($userId, $rolId)
     {

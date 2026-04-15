@@ -1,7 +1,7 @@
-<h1>📦 Listado de Órdenes</h1>
+<h1>💳 Listado de Pagos</h1>
 
-<a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=INS">
-    ➕ Nueva Orden
+<a href="index.php?page=Mantenimientos-Pagos-Formulario&mode=INS">
+    ➕ Nuevo Pago
 </a>
 
 <br><br>
@@ -10,9 +10,9 @@
     <thead style="background-color: #333; color: white;">
         <tr>
             <th>ID</th>
-            <th>Usuario</th>
-            <th>Total</th>
-            <th>Estado</th>
+            <th>Orden</th>
+            <th>Monto</th>
+            <th>Método</th>
             <th>Fecha</th>
             <th>Acciones</th>
         </tr>
@@ -20,60 +20,56 @@
 
     <tbody>
 
-        {{foreach ordenes}}
+        {{foreach pagos}}
         <tr>
             <td>{{id}}</td>
 
-            <td><strong>{{nombre}}</strong></td>
+            <td><strong>#{{orden_id}}</strong></td>
 
             <td>
                 <span style="color: blue; font-weight: bold;">
-                    L. {{total}}
+                    L. {{monto}}
                 </span>
             </td>
 
-            <td>
-                <span style="color: green; font-weight: bold;">
-                    {{estado}}
-                </span>
-            </td>
+            <td>{{metodo}}</td>
 
             <td>{{fecha}}</td>
 
             <td>
 
                 <!-- VER -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=DSP&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Pagos-Formulario&mode=DSP&id={{id}}">
                     👁️ Ver
                 </a>
 
                 |
 
                 <!-- EDITAR -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=UPD&id={{id}}">
+                <a href="index.php?page=Mantenimientos-Pagos-Formulario&mode=UPD&id={{id}}">
                     ✏️ Editar
                 </a>
 
                 |
 
                 <!-- ELIMINAR -->
-                <a href="index.php?page=Mantenimientos-Ordenes-Formulario&mode=DEL&id={{id}}"
-                   onclick="return confirm('¿Seguro que deseas eliminar esta orden?');"
+                <a href="index.php?page=Mantenimientos-Pagos-Formulario&mode=DEL&id={{id}}"
+                   onclick="return confirm('¿Seguro que deseas eliminar este pago?');"
                    style="color: red;">
                     🗑️ Eliminar
                 </a>
 
             </td>
         </tr>
-        {{endfor ordenes}}
+        {{endfor pagos}}
 
-        {{ifnot ordenes}}
+        {{ifnot pagos}}
         <tr>
             <td colspan="6" style="text-align: center; color: gray;">
-                ⚠️ No hay órdenes registradas
+                ⚠️ No hay pagos registrados
             </td>
         </tr>
-        {{endifnot ordenes}}
+        {{endifnot pagos}}
 
     </tbody>
 </table>

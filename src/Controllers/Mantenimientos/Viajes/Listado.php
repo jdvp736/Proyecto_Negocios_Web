@@ -2,19 +2,20 @@
 
 namespace Controllers\Mantenimientos\Viajes;
 
-use Controllers\PublicController;
+use Controllers\PrivateController;
 use Views\Renderer;
 use Dao\Mantenimientos\Viajes\Viajes as ViajesDAO;
 
 const LIST_VIEW_TEMPLATE = "mantenimientos/viajes/listado";
 
-class Listado extends PublicController
+class Listado extends PrivateController
 {
     private array $viajesList = [];
 
     public function run(): void
     {
         $this->viajesList = ViajesDAO::getAllViajes();
+
         Renderer::render(LIST_VIEW_TEMPLATE, $this->prepareViewData());
     }
 

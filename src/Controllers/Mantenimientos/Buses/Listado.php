@@ -2,13 +2,13 @@
 
 namespace Controllers\Mantenimientos\Buses;
 
-use Controllers\PublicController;
+use Controllers\PrivateController;
 use Views\Renderer;
 use Dao\Mantenimientos\Buses\Buses as BusesDAO;
 
 const LIST_VIEW_TEMPLATE = "mantenimientos/buses/listado";
 
-class Listado extends PublicController
+class Listado extends PrivateController
 {
     private array $busesList = [];
 

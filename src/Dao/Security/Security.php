@@ -55,6 +55,20 @@ class Security extends \Dao\Table
         );
     }
 
+    static public function addNewFeature($fncod, $fndsc = "", $fntyp = "CTR")
+{
+    return self::executeNonQuery(
+        "INSERT INTO funciones (fncod, fndsc, fnest, fntyp)
+         VALUES (:fncod, :fndsc, 'ACT', :fntyp)
+         ON DUPLICATE KEY UPDATE fndsc = :fndsc;",
+        [
+            "fncod" => $fncod,
+            "fndsc" => $fndsc,
+            "fntyp" => $fntyp
+        ]
+    );
+}
+
 
 
     static private function _saltPassword($password)

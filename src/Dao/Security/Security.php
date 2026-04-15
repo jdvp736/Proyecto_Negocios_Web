@@ -163,17 +163,20 @@ class Security extends \Dao\Table
         return count($data) > 0;
     }
 
-    // 🔥 MODIFICACIÓN CLAVE AQUÍ
+    // 🔥 CONTROL DE ACCESO POR ROLES
     static public function getFeatureByUsuario($userId, $fncod)
     {
-        // ✅ PERMITIR DASHBOARDS
-        if (
-            $fncod === "Controllers\\Home\\Dashboard" ||
-            $fncod === "Controllers\\Mantenimientos\\Dashboard\\Dashboard"
-        ) {
+        // 🟢 HOME PARA TODOS
+        if (strpos($fncod, "Controllers\\Home") !== false) {
             return true;
         }
 
+        // 🔒 MANTENIMIENTOS SOLO ADMIN
+        if (strpos($fncod, "Controllers\\Mantenimientos") !== false) {
+            return self::isAdmin($userId);
+        }
+
+        // 🔁 RESTO NORMAL
         $data = self::obtenerRegistros(
             "SELECT * FROM funciones_roles fr
              INNER JOIN roles_usuarios ru 

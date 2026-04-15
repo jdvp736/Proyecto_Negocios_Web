@@ -101,17 +101,6 @@ body {
 }
 </style>
 
-<!-- NAVBAR -->
-<div class="navbar">
-    <div><strong>🚌 Transportes Sosa</strong></div>
-
-    <div>
-        <a href="#">Inicio</a>
-        <a href="#">Viajes</a>
-        <a href="#">Contacto</a>
-    </div>
-</div>
-
 <!-- CARRUSEL -->
 <div>
     <img id="carousel" class="carousel-img" src="public/imgs/bus.jpg">
@@ -195,12 +184,8 @@ setInterval(() => {
     <p>💺 {{tipo_bus}}</p>
     <p>📅 {{fecha_salida}}</p>
 
-    <p style="color:#28a745; font-size:20px;">
-        L. {{precio}}
-    </p>
-
-    <a href="index.php?page=Compra&viaje={{id}}" class="btn">
-        Comprar boleto
+    <a href="index.php?page=Catalogo-Viajes-Listado" class="btn">
+        Ver catalogo de rutas
     </a>
 
 </div>

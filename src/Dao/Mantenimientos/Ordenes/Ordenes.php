@@ -1,4 +1,5 @@
 <?php
+
 namespace Dao\Mantenimientos\Ordenes;
 
 use Dao\Table;
@@ -19,5 +20,55 @@ class Ordenes extends Table
                 ORDER BY o.fecha DESC;";
 
         return self::obtenerRegistros($sql, []);
+    }
+
+    public static function getOrdenById(int $id): array
+    {
+        $sqlstr = "SELECT * FROM ordenes WHERE id = :id;";
+        return self::obtenerUnRegistro($sqlstr, ["id" => $id]);
+    }
+
+    public static function getOrdenByUsuario($usuario_id)
+{
+    $sql = "SELECT * FROM ordenes 
+            WHERE usuario_id = :usuario_id 
+            ORDER BY fecha DESC 
+            LIMIT 1;";
+
+    return self::obtenerUnRegistro($sql, [
+        "usuario_id" => $usuario_id
+    ]);
+}
+
+    public static function crearOrden($usuario_id, $total, $estado): int
+    {
+        $sqlstr = "INSERT INTO ordenes (usuario_id, total, estado)
+                   VALUES (:usuario_id, :total, :estado);";
+        return self::executeNonQuery($sqlstr, [
+            "usuario_id" => $usuario_id,
+            "total"      => $total,
+            "estado"     => $estado
+        ]);
+    }
+
+    public static function actualizarOrden($id, $usuario_id, $total, $estado): int
+    {
+        $sqlstr = "UPDATE ordenes
+                   SET usuario_id = :usuario_id,
+                       total      = :total,
+                       estado     = :estado
+                   WHERE id = :id;";
+        return self::executeNonQuery($sqlstr, [
+            "id"         => $id,
+            "usuario_id" => $usuario_id,
+            "total"      => $total,
+            "estado"     => $estado
+        ]);
+    }
+
+    public static function eliminarOrden($id): int
+    {
+        $sqlstr = "DELETE FROM ordenes WHERE id = :id;";
+        return self::executeNonQuery($sqlstr, ["id" => $id]);
     }
 }

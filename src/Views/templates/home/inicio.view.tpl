@@ -242,7 +242,7 @@ setInterval(() => {
 <div class="fade-in" style="padding:20px;">
     <h2>📖 Nuestra Historia</h2>
     <p>
-        Transportes Sosa inició operaciones el <strong>15 de marzo de 2015</strong>,
+        Transportes Sosa inició operaciones el <strong>15 de marzo de 2015</strong>, 
         con la misión de transformar el transporte en Honduras.
     </p>
     <p>
@@ -301,11 +301,23 @@ setInterval(() => {
 <hr>
 
 <!-- TESTIMONIOS -->
-<div class="fade-in" style="padding:20px;">
-    <h2>💬 Opiniones</h2>
-    <p>"Excelente servicio" ⭐⭐⭐⭐⭐</p>
-    <p>"Muy cómodo y seguro" ⭐⭐⭐⭐⭐</p>
-</div>
+<section class="section fade-in" style="padding:20px;">
+    <h2>💬 Opiniones de nuestros clientes</h2>
+    <div class="testimonios">
+        <div class="testimonios">
+            <h3 class="username">Carlos M.- ⭐⭐⭐⭐⭐ </h3>
+            <p class="testimonios-txt">
+                Excelente servicio, los buses son cómodos y siempre salen a tiempo.
+            </p>
+        </div>
+        <div class="testimonios">
+            <h3 class="username">Andrea R. - ⭐⭐⭐⭐⭐</h3>
+            <p class="testimonios-txt">
+                Viaje seguro y rápido, me gustó mucho la experiencia.
+            </p>
+        </div>
+    </div>
+</section>
 
 <hr>
 

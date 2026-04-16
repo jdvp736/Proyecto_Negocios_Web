@@ -1,157 +1,92 @@
-<style>
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #eef2f7, #e3e9f2);
-}
+<section class="container-m">
+  <h1>{{modeDsc}}</h1>
+  <p>Formulario para registrar, consultar, actualizar o eliminar usuarios del sistema.</p>
 
-.form-container {
-    max-width:600px;
-    margin:40px auto;
-    background:white;
-    padding:25px;
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
-    animation:fadeIn 0.6s ease;
-}
-
-.form-container h1 {
-    text-align:center;
-    color:#0b2c4a;
-}
-
-.form-group {
-    margin-bottom:15px;
-}
-
-.form-group label {
-    font-weight:bold;
-    display:block;
-    margin-bottom:5px;
-}
-
-.form-group input,
-.form-group select {
-    width:100%;
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    transition:0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    border-color:#0d6efd;
-    box-shadow:0 0 5px rgba(13,110,253,0.4);
-}
-
-.btn,
-a.btn,
-button.btn {
-    width:100%;
-    padding:12px;
-    background:#0d6efd;
-    color:white;
-    border:none;
-    border-radius:0 !important;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
-    transition:0.3s;
-    position:relative;
-    overflow:hidden;
-    text-decoration:none;
-    display:block;
-    text-align:center;
-}
-
-.btn::after {
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:rgba(255,255,255,0.2);
-    transition:0.4s;
-}
-
-.btn:hover::after {
-    left:100%;
-}
-
-.btn:hover {
-    background:#28a745;
-    transform:scale(1.05);
-}
-
-.btn-secondary {
-    background:#6c757d !important;
-    border-radius:0 !important;
-}
-
-.btn-secondary:hover {
-    background:#495057 !important;
-}
-
-@keyframes fadeIn {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
-}
-</style>
-
-<div class="form-container">
-
-<h1>{{modeDsc}}</h1>
-
-<form method="post" action="index.php?page=Mantenimientos-Usuarios-Formulario&mode={{mode}}&id={{id}}">
-
-    <input type="hidden" name="uuid" value="{{xsrf_token}}">
+  <form method="post" action="index.php?page=Mantenimientos-Usuarios-Formulario&mode={{mode}}&id={{id}}" class="grid">
     <input type="hidden" name="id" value="{{id}}">
+    <input type="hidden" name="uuid" value="{{xsrf_token}}">
 
-    <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" name="nombre" value="{{nombre}}" {{isReadonly}}>
-    </div>
+    <section class="depth-1 px-4 py-4">
+      <div class="row">
+        <label class="col-12 col-m-4" for="nombre">Nombre</label>
+        <div class="col-12 col-m-8">
+          <input
+            class="width-full"
+            type="text"
+            id="nombre"
+            name="nombre"
+            value="{{nombre}}"
+            placeholder="Nombre completo del usuario"
+            {{isReadonly}}
+            required>
+        </div>
+      </div>
 
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" value="{{email}}" {{isReadonly}}>
-    </div>
+      <div class="row">
+        <label class="col-12 col-m-4" for="email">Correo Electrónico</label>
+        <div class="col-12 col-m-8">
+          <input
+            class="width-full"
+            type="email"
+            id="email"
+            name="email"
+            value="{{email}}"
+            placeholder="correo@ejemplo.com"
+            {{isReadonly}}
+            required>
+        </div>
+      </div>
 
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password">
-    </div>
+      {{ifnot isReadonly}}
+      <div class="row">
+        <label class="col-12 col-m-4" for="password">Contraseña</label>
+        <div class="col-12 col-m-8">
+          <input
+            class="width-full"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Contraseña segura">
+          <small>Solo se requiere al crear un usuario nuevo.</small>
+        </div>
+      </div>
+      {{endifnot isReadonly}}
 
-    <div class="form-group">
-        <label>Rol</label>
-        <select name="rol_id" {{isReadonly}}>
+      <div class="row">
+        <label class="col-12 col-m-4" for="rol_id">Rol</label>
+        <div class="col-12 col-m-8">
+          <select class="width-full" id="rol_id" name="rol_id" {{if isReadonly}}disabled{{endif isReadonly}} required>
+            <option value="">Seleccione un rol</option>
             {{foreach roles}}
-                <option value="{{id}}" {{selected}}>
-                    {{nombre}}
-                </option>
+              <option value="{{id}}">{{nombre}}</option>
             {{endfor roles}}
-        </select>
-    </div>
+          </select>
+        </div>
+      </div>
 
-    <div class="form-group">
-        <label>Estado</label>
-        <select name="estado" {{isReadonly}}>
+      <div class="row">
+        <label class="col-12 col-m-4" for="estado">Estado</label>
+        <div class="col-12 col-m-8">
+          <select class="width-full" id="estado" name="estado" {{if isReadonly}}disabled{{endif isReadonly}} required>
             <option value="1">Activo</option>
             <option value="0">Inactivo</option>
-        </select>
-    </div>
+          </select>
+        </div>
+      </div>
 
-    {{ifnot hideConfirm}}
-        <button type="submit" class="btn">
+      <div class="row flex-end">
+        <a href="index.php?page=Mantenimientos-Usuarios-Listado" class="secondary">Cancelar</a>
+
+        {{ifnot hideConfirm}}
+          <button
+            type="submit"
+            class="primary"
+            title="{{confirmToolTip}}">
             Confirmar
-        </button>
-    {{endifnot hideConfirm}}
+          </button>
+        {{endifnot hideConfirm}}
+      </div>
+    </section>
+  </form>
+</section>
 
-</form>
-
-<a href="index.php?page=Mantenimientos-Usuarios-Listado" class="btn btn-secondary">
-    Volver al listado
-</a>
-
-</div>

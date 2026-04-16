@@ -36,13 +36,18 @@
       "nav_url": "index.php?page=Sec_Register",
       "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Crear Cuenta"
     }
-
   ],
   "private": [
     {
       "id":"Menu_PaymentCheckout",
       "nav_url": "index.php?page=Checkout_Checkout",
       "nav_label": "Carretilla de Compra"
+    },
+
+    {
+      "id":"Menu_Historial",
+      "nav_url": "index.php?page=Checkout_Historial",
+      "nav_label": "Historial"
     },
 
     {
@@ -60,8 +65,5 @@
       "nav_url": "index.php?page=Home-Contacto",
       "nav_label": "Contacto"
     }
-
-
-
   ]
 }

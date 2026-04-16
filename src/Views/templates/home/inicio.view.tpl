@@ -15,38 +15,32 @@ body {
     display:flex;
     align-items:center;
     gap:10px;
-
-    height:60px !important;       
-    min-height:60px !important;   
-    padding:0 20px !important;    
-
+    height:80px !important;
+    min-height:60px !important;
+    padding:0 20px !important;
+    margin-top:0;
     background: linear-gradient(90deg, #0d6efd, #0b2c4a);
     color:white;
-
-    overflow:hidden;             
+    overflow:hidden;
 }
 
-/* LOGO */
 .hero img {
     width:30px !important;
     height:30px !important;
 }
 
-/* TEXTO */
 .hero-text {
     display:flex;
     flex-direction:column;
     justify-content:center;
 }
 
-/* TITULO */
 .hero h1 {
     margin:0;
-    font-size:18px;
+    font-size:28px;
     line-height:1;
 }
 
-/* SUBTITULO */
 .hero p {
     margin:0;
     font-size:11px;
@@ -54,10 +48,13 @@ body {
     color:#d1e7ff;
 }
 
-/* CARRUSEL */
+.carousel-container {
+    margin-top:15px;
+}
+
 .carousel-img {
-    width:100%;
-    height:350px;
+    width:110%;
+    height:400px;
     object-fit:cover;
     transition: opacity 1s ease-in-out, transform 1s ease;
 }
@@ -66,7 +63,6 @@ body {
     transform:scale(1.02);
 }
 
-/* ANIMACIONES */
 .fade-in {
     opacity:0;
     transform:translateY(30px);
@@ -78,7 +74,6 @@ body {
     transform:translateY(0);
 }
 
-/* CARDS */
 .card {
     border-radius:16px;
     width:300px;
@@ -119,7 +114,6 @@ body {
     color:#0b2c4a;
 }
 
-/* BOTONES CUADRADOS */
 .btn,
 a.btn,
 button.btn {
@@ -164,7 +158,6 @@ button.btn {
     transform:scale(0.95);
 }
 
-/* STATS */
 .stats {
     display:flex;
     justify-content:space-around;
@@ -184,18 +177,16 @@ button.btn {
     transform:translateY(-8px);
 }
 
-/* TITULOS */
 h2 {
     color:#0b2c4a;
 }
 
-/* FOOTER */
 .footer {
     background:#1c1c1c;
     color:white;
     text-align:center;
     padding:20px;
-    margin-top:20px;
+    margin-top:60px;
     font-size:14px;
 }
 </style>
@@ -203,14 +194,12 @@ h2 {
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
-    <h1>🛣️ Transportes Sosa</h1>
+    <h1>Transportes Sosa</h1>
     <p>Tu mejor opción para viajar seguro, cómodo y rápido por Honduras</p>
 </div>
 
-<!-- CARRUSEL -->
-<div>
+<div class="carousel-container">
     <img id="carousel" class="carousel-img" src="public/imgs/bus.jpg">
 </div>
 
@@ -238,9 +227,8 @@ setInterval(() => {
 
 <hr>
 
-<!-- HISTORIA -->
 <div class="fade-in" style="padding:20px;">
-    <h2>📖 Nuestra Historia</h2>
+    <h2>Nuestra Historia</h2>
     <p>
         Transportes Sosa inició operaciones el <strong>15 de marzo de 2015</strong>, 
         con la misión de transformar el transporte en Honduras.
@@ -253,28 +241,26 @@ setInterval(() => {
 
 <hr>
 
-<!-- ESTADISTICAS -->
 <div class="stats fade-in">
     <div>
         <h2>{{totalBuses}}</h2>
-        <p>🚌 Buses</p>
+        <p>Buses</p>
     </div>
 
     <div>
         <h2>{{totalViajes}}</h2>
-        <p>🧭 Viajes</p>
+        <p>Viajes</p>
     </div>
 
     <div>
         <h2>{{totalRutas}}</h2>
-        <p>🛣️ Rutas</p>
+        <p>Rutas</p>
     </div>
 </div>
 
 <hr>
 
-<!-- VIAJES DESTACADOS -->
-<h2 style="text-align:center;">🎟️ Compra tu Viaje</h2>
+<h2 style="text-align:center;">Compra tu Viaje</h2>
 
 <div style="display:flex; flex-wrap:wrap; gap:25px; justify-content:center;">
 
@@ -285,9 +271,9 @@ setInterval(() => {
 
     <h3>{{ruta}}</h3>
 
-    <p>🚌 {{bus}}</p>
+    <p>{{bus}}</p>
 
-    <p>📅 {{fecha_salida}}</p>
+    <p>{{fecha_salida}}</p>
 
     <a href="index.php?page=Catalogo-Viajes-Listado" class="btn">
         Ver catálogo de rutas
@@ -300,35 +286,20 @@ setInterval(() => {
 
 <hr>
 
-<!-- TESTIMONIOS -->
-<section class="section fade-in" style="padding:20px;">
-    <h2>💬 Opiniones de nuestros clientes</h2>
-    <div class="testimonios">
-        <div class="testimonios">
-            <h3 class="username">Carlos M.- ⭐⭐⭐⭐⭐ </h3>
-            <p class="testimonios-txt">
-                Excelente servicio, los buses son cómodos y siempre salen a tiempo.
-            </p>
-        </div>
-        <div class="testimonios">
-            <h3 class="username">Andrea R. - ⭐⭐⭐⭐⭐</h3>
-            <p class="testimonios-txt">
-                Viaje seguro y rápido, me gustó mucho la experiencia.
-            </p>
-        </div>
-    </div>
-</section>
+<div class="fade-in" style="padding:20px; text-align:center;">
+    <h2>Opiniones</h2>
+    <p>"Excelente servicio"</p>
+    <p>"Muy cómodo y seguro"</p>
+</div>
 
 <hr>
 
-<!-- CONTACTO -->
 <div class="fade-in" style="text-align:center; padding:20px;">
-    <h2>📞 Contáctanos</h2>
-    <p>📍 Honduras</p>
-    <p>📞 +504 9999-9999</p>
+    <h2>Contáctanos</h2>
+    <p>Honduras</p>
+    <p>+504 9999-9999</p>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     © 2026 Transportes Sosa
 </div>

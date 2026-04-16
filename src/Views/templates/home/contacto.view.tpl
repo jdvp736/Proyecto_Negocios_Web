@@ -1,4 +1,4 @@
-<h1 style="text-align:center;">📞 Contáctanos</h1>
+<h1 style="text-align:center;">Contáctanos</h1>
 
 <div style="max-width:600px; margin:auto; padding:20px;">
 

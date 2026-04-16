@@ -10,6 +10,7 @@ class Site
         \Utilities\Context::setArrayToContext($donenv->load());
         date_default_timezone_set(\Utilities\Context::getContextByKey("TIMEZONE"));
         \Utilities\Context::setContext('CURRENT_YEAR', date("Y"));
+        \Utilities\Context::setContext("BASE_DIR", "/Proyecto_Negocios_Web-main");
     }
     public static function getPageRequest()
     {

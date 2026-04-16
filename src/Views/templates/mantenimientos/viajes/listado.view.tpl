@@ -27,7 +27,8 @@
 
             <td><strong>{{ruta}}</strong></td>
 
-            <td>{{placa}}</td>
+            <!-- 🔥 AQUÍ ESTABA EL ERROR -->
+            <td>🚌 {{bus}}</td>
 
             <td>{{fecha_salida}}</td>
 
@@ -88,7 +89,6 @@
         text-decoration:none;
         border-radius:4px;
         font-weight:bold;
-        transition:0.3s;
     ">
         ⬅ Volver al Dashboard
     </a>

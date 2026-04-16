@@ -55,8 +55,8 @@ if (isset($_GET["less"])) {
 
         $PayPalOrder = new \Utilities\Paypal\PayPalOrder(
             "ORD" . time(),
-            "http://localhost:8080/ProyectoNW/index.php?page=Checkout_Error",
-            "http://localhost:8080/ProyectoNW/index.php?page=Checkout_Accept"
+            "http://localhost/Proyecto_Negocios_Web-main/index.php?page=Checkout_Error",
+            "http://localhost/Proyecto_Negocios_Web-main/index.php?page=Checkout_Accept"
         );
 
         foreach ($carrito as $item) {

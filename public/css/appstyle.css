@@ -945,7 +945,7 @@ footer {
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    z-index: 1010
+    z-index: 1010;
 }
 
 header .username {

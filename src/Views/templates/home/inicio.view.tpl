@@ -267,7 +267,7 @@ setInterval(() => {
 {{foreach viajes}}
 <div class="card fade-in">
 
-    <img src="public/img/bus.jpg" width="100%">
+    <img src="public/imgs/bus1.jpg" width="100%">
 
     <h3>{{ruta}}</h3>
 

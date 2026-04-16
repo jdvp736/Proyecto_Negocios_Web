@@ -1,3 +1,6 @@
+<h1 class="titulo">Acerca de Nosotros</h1>
+
+<div class="about-container">
 
     <div class="about-card">
         <p>

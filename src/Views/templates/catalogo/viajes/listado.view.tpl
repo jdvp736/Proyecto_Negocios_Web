@@ -5,7 +5,6 @@ body {
     margin:0;
 }
 
-/* TITULO */
 .header {
     text-align:center;
     padding:30px 20px;
@@ -24,7 +23,6 @@ body {
     font-size:15px;
 }
 
-/* GRID */
 .container {
     display:flex;
     flex-wrap:wrap;
@@ -33,7 +31,6 @@ body {
     padding:20px;
 }
 
-/* CARD */
 .card {
     width:280px;
     border-radius:16px;
@@ -45,7 +42,6 @@ body {
     animation: fadeIn 0.8s ease;
 }
 
-/* LINEA SUPERIOR */
 .card::before {
     content:"";
     position:absolute;
@@ -56,13 +52,11 @@ body {
     left:0;
 }
 
-/* HOVER CARD */
 .card:hover {
     transform:translateY(-10px) scale(1.03);
     box-shadow:0 18px 40px rgba(0,0,0,0.2);
 }
 
-/* HEADER CARD */
 .card-header {
     background:#0b2c4a;
     color:white;
@@ -73,7 +67,6 @@ body {
     letter-spacing:0.5px;
 }
 
-/* BODY */
 .card-body {
     padding:18px;
     font-size:14px;
@@ -84,7 +77,6 @@ body {
     margin:8px 0;
 }
 
-/* DISPONIBLE */
 .available {
     color:#28a745;
     font-weight:bold;
@@ -92,7 +84,6 @@ body {
     animation: fadeIn 1s ease;
 }
 
-/* BOTONES CUADRADOS (FORZADO) */
 .btn,
 a.btn,
 button.btn {
@@ -103,7 +94,7 @@ button.btn {
     background:#0b2c4a;
     color:white;
     text-decoration:none;
-    border-radius:0 !important; /* 🔥 clave */
+    border-radius:0 !important;
     font-weight:bold;
     letter-spacing:0.5px;
     transition: all 0.3s ease;
@@ -112,7 +103,6 @@ button.btn {
     border:none;
 }
 
-/* EFECTO BRILLO */
 .btn::after {
     content:"";
     position:absolute;
@@ -128,25 +118,21 @@ button.btn {
     left:100%;
 }
 
-/* HOVER */
 .btn:hover {
     background:#28a745;
     transform:scale(1.05);
     border-radius:0 !important;
 }
 
-/* CLICK */
 .btn:active {
     transform:scale(0.95);
 }
 
-/* BACK */
 .back {
     text-align:center;
     margin:30px;
 }
 
-/* ANIMACIONES */
 @keyframes fadeIn {
     from {
         opacity:0;

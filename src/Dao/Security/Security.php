@@ -163,20 +163,20 @@ class Security extends \Dao\Table
         return count($data) > 0;
     }
 
-    // 🔥 CONTROL DE ACCESO POR ROLES
+
     static public function getFeatureByUsuario($userId, $fncod)
     {
-        // 🟢 HOME PARA TODOS
+  
         if (strpos($fncod, "Controllers\\Home") !== false) {
             return true;
         }
 
-        // 🔒 MANTENIMIENTOS SOLO ADMIN
+ 
         if (strpos($fncod, "Controllers\\Mantenimientos") !== false) {
             return self::isAdmin($userId);
         }
 
-        // 🔁 RESTO NORMAL
+     
         $data = self::obtenerRegistros(
             "SELECT * FROM funciones_roles fr
              INNER JOIN roles_usuarios ru 

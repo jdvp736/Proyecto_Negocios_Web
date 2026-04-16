@@ -7,7 +7,6 @@ use Dao\Mantenimientos\Roles\Roles as RolesDAO;
 use Controllers\PrivateController;
 use Views\Renderer;
 use Utilities\Site;
-use Controllers\PrivateNoAuthException;
 
 const USUARIOS_FORM_URL = "index.php?page=Mantenimientos-Usuarios-Formulario";
 const USUARIOS_LIST_URL = "index.php?page=Mantenimientos-Usuarios-Listado";
@@ -22,19 +21,6 @@ class Formulario extends PrivateController
         "UPD" => "Actualizar Usuario %s",
         "DSP" => "Detalle del Usuario %s",
         "DEL" => "Eliminando Usuario %s"
-    ];
-
-    private array $accessControl = [
-        "INS" => "usuarios_INS",
-        "UPD" => "usuarios_UPD",
-        "DEL" => "usuarios_DEL",
-    ];
-
-    private array $confirmTooltips = [
-        "INS" => "",
-        "UPD" => "",
-        "DSP" => "",
-        "DEL" => "¿Seguro que deseas eliminar este usuario?"
     ];
 
     private $id;
@@ -103,9 +89,6 @@ class Formulario extends PrivateController
             Site::redirectToWithMsg(USUARIOS_LIST_URL, "Modo inválido");
         }
 
-        if (isset($this->accessControl[$this->mode]) && !$this->isFeatureAuthorized($this->accessControl[$this->mode])) {
-        throw new PrivateNoAuthException();
-       }
 
         $this->id = intval($_GET["id"] ?? 0);
 
@@ -165,7 +148,6 @@ class Formulario extends PrivateController
 
     private function GenerarViewData()
     {
-        // 🔥 AQUÍ ESTÁ LA CLAVE (selected)
         foreach ($this->roles as &$rol) {
             $rol["selected"] = ($rol["id"] == $this->rol_id) ? "selected" : "";
         }
@@ -182,7 +164,7 @@ class Formulario extends PrivateController
 
         $this->viewData["isReadonly"]     = ($this->mode === 'DEL' || $this->mode === 'DSP') ? 'readonly' : '';
         $this->viewData["hideConfirm"]    = $this->mode === 'DSP';
-        $this->viewData["confirmToolTip"] = $this->confirmTooltips[$this->mode];
+        $this->viewData["confirmToolTip"] = $this->mode === "DEL" ? "¿Seguro que deseas eliminar este usuario?" : "";
         $this->viewData["xsrf_token"]     = $this->GenerateXSRFToken();
     }
 

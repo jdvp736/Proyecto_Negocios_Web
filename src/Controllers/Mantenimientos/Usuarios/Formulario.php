@@ -103,9 +103,9 @@ class Formulario extends PrivateController
             Site::redirectToWithMsg(USUARIOS_LIST_URL, "Modo inválido");
         }
 
-        if (isset($this->accessControl[$this->mode]) && !$this->isFeatureAutorized($this->accessControl[$this->mode])) {
-            throw new PrivateNoAuthException();
-        }
+        if (isset($this->accessControl[$this->mode]) && !$this->isFeatureAuthorized($this->accessControl[$this->mode])) {
+        throw new PrivateNoAuthException();
+       }
 
         $this->id = intval($_GET["id"] ?? 0);
 

@@ -90,7 +90,7 @@ body {
     position:absolute;
     width:100%;
     height:4px;
-    background:linear-gradient(90deg, #0d6efd, #28a745);
+    background:linear-gradient(90deg, #0b2c4a, #28a745);
     top:0;
     left:0;
 }
@@ -120,7 +120,7 @@ button.btn {
     display:block;
     width:100%;
     text-align:center;
-    background:#0d6efd;
+    background:#0b2c4a;
     color:white;
     padding:12px;
     border-radius:0 !important;
@@ -230,7 +230,7 @@ setInterval(() => {
 <div class="fade-in" style="padding:20px;">
     <h2>Nuestra Historia</h2>
     <p>
-        Transportes Sosa inició operaciones el <strong>15 de marzo de 2015</strong>,
+        Transportes Sosa inició operaciones el <strong>15 de marzo de 2015</strong>, 
         con la misión de transformar el transporte en Honduras.
     </p>
     <p>

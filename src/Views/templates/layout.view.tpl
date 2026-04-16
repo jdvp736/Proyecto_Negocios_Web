@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html>
+<style>
+  body { background: #f4f7fb !important; font-family: "Segoe UI", sans-serif !important; }
+  h1 { color: #1f3c88 !important; }
+</style>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{BASE_DIR}}/public/css/appstyle.css" />
+  <link rel="stylesheet" href="{{BASE_DIR}}/public/css/form.css?v=2" />
+  <link rel="stylesheet" href="{{BASE_DIR}}/public/css/form.css" />
   <script src="https://kit.fontawesome.com/{{FONT_AWESOME_KIT}}.js" crossorigin="anonymous"></script>
   {{foreach SiteLinks}}
     <link rel="stylesheet" href="{{~BASE_DIR}}/{{this}}" />

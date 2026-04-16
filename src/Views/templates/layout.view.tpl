@@ -15,32 +15,47 @@
     <script src="{{~BASE_DIR}}/{{this}}"></script>
   {{endfor BeginScripts}}
 </head>
+
 <body>
-  <header>
+
+<header>
     <input type="checkbox" class="menu_toggle" id="menu_toggle" />
-    <label for="menu_toggle" class="menu_toggle_icon" >
-      <div class="hmb dgn pt-1"></div>
-      <div class="hmb hrz"></div>
-      <div class="hmb dgn pt-2"></div>
+    <label for="menu_toggle" class="menu_toggle_icon">
+        <div class="hmb dgn pt-1"></div>
+        <div class="hmb hrz"></div>
+        <div class="hmb dgn pt-2"></div>
     </label>
+
     <h1>{{SITE_TITLE}}</h1>
+
     <nav id="menu">
-      <ul>
-        <li><a href="index.php?page={{PUBLIC_DEFAULT_CONTROLLER}}"><i class="fas fa-home"></i>&nbsp;Inicio</a></li>
-        {{foreach PUBLIC_NAVIGATION}}
-            <li><a href="{{nav_url}}">{{nav_label}}</a></li>
-        {{endfor PUBLIC_NAVIGATION}}
-      </ul>
+        <ul>
+            <li>
+                <a href="index.php?page={{PUBLIC_DEFAULT_CONTROLLER}}">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+
+            {{foreach PUBLIC_NAVIGATION}}
+                <li>
+                    <a href="{{nav_url}}">{{nav_label}}</a>
+                </li>
+            {{endfor PUBLIC_NAVIGATION}}
+        </ul>
     </nav>
-  </header>
-  <main>
-  {{{page_content}}}
-  </main>
-  <footer>
-    <div>Todo los Derechos Reservados {{~CURRENT_YEAR}} &copy;</div>
-  </footer>
-  {{foreach EndScripts}}
-    <script src="{{~BASE_DIR}}/{{this}}"></script>
-  {{endfor EndScripts}}
+</header>
+
+<main>
+    {{{page_content}}}
+</main>
+
+<footer>
+    <div>Todos los Derechos Reservados {{~CURRENT_YEAR}} &copy;</div>
+</footer>
+
+{{foreach EndScripts}}
+  <script src="{{~BASE_DIR}}/{{this}}"></script>
+{{endfor EndScripts}}
+
 </body>
 </html>

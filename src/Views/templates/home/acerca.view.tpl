@@ -4,7 +4,7 @@
 
     <p>
         Transportes Sosa fue fundada el <strong>15 de marzo de 2015</strong>,
-        con el objetivo de ofrecer un servicio de transporte seguro, confiable y accesible.
+         con el objetivo de ofrecer un servicio de transporte seguro, confiable y accesible.
     </p>
 
     <p>
@@ -21,6 +21,8 @@
 
     <h3>Misión</h3>
     <p>Brindar un servicio de transporte de calidad.</p>
+
+    <hr>
 
     <h3>Visión</h3>
     <p>Ser la empresa líder en transporte en Honduras.</p>

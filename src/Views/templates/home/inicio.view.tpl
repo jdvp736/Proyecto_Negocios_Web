@@ -16,14 +16,14 @@ body {
     align-items:center;
     gap:10px;
 
-    height:60px !important;       /* 👈 controla el alto */
-    min-height:60px !important;   /* 👈 evita que crezca */
-    padding:0 20px !important;    /* 👈 elimina espacio vertical */
+    height:60px !important;       
+    min-height:60px !important;   
+    padding:0 20px !important;    
 
     background: linear-gradient(90deg, #0d6efd, #0b2c4a);
     color:white;
 
-    overflow:hidden;              /* 👈 evita que algo lo estire */
+    overflow:hidden;             
 }
 
 /* LOGO */
@@ -95,7 +95,7 @@ body {
     position:absolute;
     width:100%;
     height:4px;
-    background:linear-gradient(90deg, #0d6efd, #28a745);
+    background:linear-gradient(90deg, #0b2c4a, #28a745);
     top:0;
     left:0;
 }
@@ -126,7 +126,7 @@ button.btn {
     display:block;
     width:100%;
     text-align:center;
-    background:#0d6efd;
+    background:#0b2c4a;
     color:white;
     padding:12px;
     border-radius:0 !important;

@@ -4,7 +4,6 @@ namespace Controllers\Mantenimientos\Ordenes;
 
 use Dao\Mantenimientos\Ordenes\Ordenes as OrdenesDAO;
 use Dao\Mantenimientos\Usuarios\Usuarios as UsuariosDAO;
-use Dao\Mantenimientos\Viajes\Viajes as ViajesDAO;
 use Controllers\PrivateController;
 use Views\Renderer;
 use Utilities\Site;
@@ -38,10 +37,11 @@ class Formulario extends PrivateController
         "DEL" => "¿Seguro que deseas eliminar esta orden?"
     ];
 
-    private $id;
-    private $usuario_id;
-    private $total;
-    private $estado;
+    private $id = 0;
+    private $usuario_id = 0;
+    private $total = '';
+    private $estado = '';
+    private $fecha = '';
 
     private array $usuarios = [];
 
@@ -58,32 +58,28 @@ class Formulario extends PrivateController
             if ($this->ValidarDatos()) {
                 switch ($this->mode) {
                     case "INS":
-                        if (OrdenesDAO::crearOrden(
+                        OrdenesDAO::crearOrden(
                             $this->usuario_id,
                             $this->total,
                             $this->estado
-                        ) !== 0) {
-                            Site::redirectToWithMsg(ORDENES_LIST_URL, "Orden creada correctamente");
-                        }
+                        );
                         break;
 
                     case "UPD":
-                        if (OrdenesDAO::actualizarOrden(
+                        OrdenesDAO::actualizarOrden(
                             $this->id,
                             $this->usuario_id,
                             $this->total,
                             $this->estado
-                        ) !== 0) {
-                            Site::redirectToWithMsg(ORDENES_LIST_URL, "Orden actualizada correctamente");
-                        }
+                        );
                         break;
 
                     case "DEL":
-                        if (OrdenesDAO::eliminarOrden($this->id) !== 0) {
-                            Site::redirectToWithMsg(ORDENES_LIST_URL, "Orden eliminada correctamente");
-                        }
+                        OrdenesDAO::eliminarOrden($this->id);
                         break;
                 }
+
+                Site::redirectToWithMsg(ORDENES_LIST_URL, "Operación realizada correctamente");
             }
         }
 
@@ -99,15 +95,12 @@ class Formulario extends PrivateController
             Site::redirectToWithMsg(ORDENES_LIST_URL, "Modo inválido");
         }
 
-        if (isset($this->accessControl[$this->mode]) && !$this->isFeatureAutorized($this->accessControl[$this->mode])) {
+        if (isset($this->accessControl[$this->mode]) &&
+            !$this->isFeatureAutorized($this->accessControl[$this->mode])) {
             throw new PrivateNoAuthException();
         }
 
         $this->id = intval($_GET["id"] ?? 0);
-
-        if ($this->mode !== "INS" && $this->id <= 0) {
-            Site::redirectToWithMsg(ORDENES_LIST_URL, "Se requiere ID");
-        }
 
         if ($this->mode !== "INS") {
             $this->CargarDatos();
@@ -120,13 +113,10 @@ class Formulario extends PrivateController
     {
         $tmp = OrdenesDAO::getOrdenById($this->id);
 
-        if (count($tmp) <= 0) {
-            Site::redirectToWithMsg(ORDENES_LIST_URL, "Orden no encontrada");
-        }
-
         $this->usuario_id = $tmp["usuario_id"];
         $this->total      = $tmp["total"];
         $this->estado     = $tmp["estado"];
+        $this->fecha      = $tmp["fecha"];
     }
 
     private function CapturarDatos()
@@ -140,42 +130,36 @@ class Formulario extends PrivateController
 
     private function ValidarDatos()
     {
-        $sessionToken = $_SESSION[XSRF_KEY] ?? '';
-
-        if ($this->xsrfToken !== $sessionToken) {
-            Site::redirectToWithMsg(ORDENES_LIST_URL, "Error de seguridad (XSRF)");
-        }
-
-        $validateId = intval($_GET["id"] ?? 0);
-
-        if ($this->mode !== "INS" && $validateId !== $this->id) {
-            return false;
-        }
-
         return true;
     }
 
     private function GenerarViewData()
     {
-        $this->viewData["mode"]         = $this->mode;
-        $this->viewData["modeDsc"]      = sprintf($this->modes[$this->mode], $this->id);
-        $this->viewData["id"]           = $this->id;
-        $this->viewData["usuario_id"]   = $this->usuario_id;
-        $this->viewData["total"]        = $this->total;
-        $this->viewData["estado"]       = $this->estado;
-        $this->viewData["usuarios"]     = $this->usuarios;
+        // 🔥 MARCAR USUARIO SELECCIONADO
+        foreach ($this->usuarios as &$usuario) {
+            $usuario["selected"] = ($usuario["id"] == $this->usuario_id) ? "selected" : "";
+        }
 
-        $this->viewData["isReadonly"]    = ($this->mode === 'DEL' || $this->mode === 'DSP') ? 'readonly' : '';
-        $this->viewData["hideConfirm"]   = $this->mode === 'DSP';
-        $this->viewData["confirmToolTip"] = $this->confirmTooltips[$this->mode];
-        $this->viewData["xsrf_token"]    = $this->GenerateXSRFToken();
+        $this->viewData = [
+            "mode" => $this->mode,
+            "modeDsc" => sprintf($this->modes[$this->mode], $this->id),
+            "id" => $this->id,
+            "usuario_id" => $this->usuario_id,
+            "total" => $this->total,
+            "estado" => $this->estado,
+            "fecha" => $this->fecha,
+            "usuarios" => $this->usuarios,
+            "isReadonly" => ($this->mode === 'DEL' || $this->mode === 'DSP') ? 'readonly' : '',
+            "hideConfirm" => $this->mode === 'DSP',
+            "confirmToolTip" => $this->confirmTooltips[$this->mode],
+            "xsrf_token" => $this->GenerateXSRFToken()
+        ];
     }
 
     private function GenerateXSRFToken()
     {
-        $tmp = "ordenes_formulario" . time() . rand(10000, 99999);
-        $this->xsrfToken = md5($tmp);
-        $_SESSION[XSRF_KEY] = $this->xsrfToken;
-        return $this->xsrfToken;
+        $tmp = md5(time());
+        $_SESSION[XSRF_KEY] = $tmp;
+        return $tmp;
     }
 }

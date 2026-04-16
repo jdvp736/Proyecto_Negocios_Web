@@ -28,6 +28,18 @@ class Ordenes extends Table
         return self::obtenerUnRegistro($sqlstr, ["id" => $id]);
     }
 
+    public static function getOrdenByUsuario($usuario_id)
+{
+    $sql = "SELECT * FROM ordenes 
+            WHERE usuario_id = :usuario_id 
+            ORDER BY fecha DESC 
+            LIMIT 1;";
+
+    return self::obtenerUnRegistro($sql, [
+        "usuario_id" => $usuario_id
+    ]);
+}
+
     public static function crearOrden($usuario_id, $total, $estado): int
     {
         $sqlstr = "INSERT INTO ordenes (usuario_id, total, estado)

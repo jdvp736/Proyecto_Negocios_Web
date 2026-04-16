@@ -1,6 +1,32 @@
 {
   "public": [
     {
+      "id":"Menu_PaymentCheckout",
+      "nav_url": "index.php?page=Checkout_Checkout",
+      "nav_label": "Carretilla de Compra"
+    },
+    {
+      "id":"Menu_inicio",
+      "nav_url": "index.php?page=Home-inicio",
+      "nav_label": "Inicio"
+    },
+
+    {
+      "id": "Controllers\\Mantenimientos\\Dashboard\\Dashboard",
+      "nav_url": "index.php?page=Mantenimientos-Dashboard-Dashboard",
+      "nav_label": "Mantenimientos"
+    },
+    {
+      "id": "Controllers\\Home\\Acerca",
+      "nav_url": "index.php?page=Home-Acerca",
+      "nav_label": "Acerca de"
+    },
+    {
+      "id": "Controllers\\Home\\Contacto",
+      "nav_url": "index.php?page=Home-Contacto",
+      "nav_label": "Contacto"
+    },
+    {
       "id": "Menu_SignIn",
       "nav_url": "index.php?page=Sec_Login",
       "nav_label":"<i class=\"fas fa-sign-in-alt\"></i>&nbsp;Iniciar Sesión"

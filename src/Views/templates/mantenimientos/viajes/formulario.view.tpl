@@ -1,91 +1,163 @@
-<section class="container-m">
-  <h1>{{modeDsc}}</h1>
-  <p>Formulario para registrar, consultar, actualizar o eliminar viajes disponibles.</p>
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #e3e9f2);
+}
 
-  <form method="post" action="index.php?page=Mantenimientos-Viajes-Formulario&mode={{mode}}&id={{id}}" class="grid">
-    <input type="hidden" name="id" value="{{id}}">
+.form-container {
+    max-width:600px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    animation:fadeIn 0.6s ease;
+}
+
+.form-container h1 {
+    text-align:center;
+    color:#0b2c4a;
+}
+
+.form-group {
+    margin-bottom:15px;
+}
+
+.form-group label {
+    font-weight:bold;
+    display:block;
+    margin-bottom:5px;
+}
+
+.form-group input,
+.form-group select {
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color:#0d6efd;
+    box-shadow:0 0 5px rgba(13,110,253,0.4);
+}
+
+.btn,
+a.btn,
+button.btn {
+    width:100%;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:0 !important;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.3s;
+    position:relative;
+    overflow:hidden;
+    text-decoration:none;
+    display:block;
+    text-align:center;
+}
+
+.btn::after {
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,0.2);
+    transition:0.4s;
+}
+
+.btn:hover::after {
+    left:100%;
+}
+
+.btn:hover {
+    background:#28a745;
+    transform:scale(1.05);
+}
+
+.btn-secondary {
+    background:#6c757d !important;
+    border-radius:0 !important;
+}
+
+.btn-secondary:hover {
+    background:#495057 !important;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+</style>
+
+<div class="form-container">
+
+<h1>{{modeDsc}}</h1>
+
+<form method="post" action="index.php?page=Mantenimientos-Viajes-Formulario&mode={{mode}}&id={{id}}">
+
     <input type="hidden" name="uuid" value="{{xsrf_token}}">
+    <input type="hidden" name="id" value="{{id}}">
 
-    <section class="depth-1 px-4 py-4">
-      <div class="row">
-        <label class="col-12 col-m-4" for="ruta_id">Ruta</label>
-        <div class="col-12 col-m-8">
-          <select class="width-full" id="ruta_id" name="ruta_id" {{if isReadonly}}disabled{{endif isReadonly}} required>
-            <option value="">Seleccione una ruta</option>
+    <div class="form-group">
+        <label>Ruta</label>
+        <select name="ruta_id" {{isReadonly}}>
             {{foreach rutas}}
-              <option value="{{id}}">{{origen}} - {{destino}}</option>
+                <option value="{{id}}" {{selected}}>
+                    {{origen}} → {{destino}}
+                </option>
             {{endfor rutas}}
-          </select>
-        </div>
-      </div>
+        </select>
+    </div>
 
-      <div class="row">
-        <label class="col-12 col-m-4" for="bus_id">Bus</label>
-        <div class="col-12 col-m-8">
-          <select class="width-full" id="bus_id" name="bus_id" {{if isReadonly}}disabled{{endif isReadonly}} required>
-            <option value="">Seleccione un bus</option>
+    <div class="form-group">
+        <label>Bus</label>
+        <select name="bus_id" {{isReadonly}}>
             {{foreach buses}}
-              <option value="{{id}}">{{placa}} - {{estado}}</option>
+                <option value="{{id}}" {{selected}}>
+                    {{placa}}
+                </option>
             {{endfor buses}}
-          </select>
-        </div>
-      </div>
+        </select>
+    </div>
 
-      <div class="row">
-        <label class="col-12 col-m-4" for="fecha_salida">Fecha y Hora de Salida</label>
-        <div class="col-12 col-m-8">
-          <input
-            class="width-full"
-            type="datetime-local"
-            id="fecha_salida"
-            name="fecha_salida"
-            value="{{fecha_salida}}"
-            {{isReadonly}}
-            required>
-        </div>
-      </div>
+    <div class="form-group">
+        <label>Fecha de salida</label>
+        <input type="datetime-local" name="fecha_salida" value="{{fecha_salida}}" {{isReadonly}}>
+    </div>
 
-      <div class="row">
-        <label class="col-12 col-m-4" for="precio">Precio del Boleto</label>
-        <div class="col-12 col-m-8">
-          <input
-            class="width-full"
-            type="number"
-            step="0.01"
-            min="0"
-            id="precio"
-            name="precio"
-            value="{{precio}}"
-            placeholder="Ejemplo: 350.00"
-            {{isReadonly}}
-            required>
-        </div>
-      </div>
+    <div class="form-group">
+        <label>Precio</label>
+        <input type="number" step="0.01" name="precio" value="{{precio}}" {{isReadonly}}>
+    </div>
 
-      <div class="row">
-        <label class="col-12 col-m-4" for="estado">Estado del Viaje</label>
-        <div class="col-12 col-m-8">
-          <select class="width-full" id="estado" name="estado" {{if isReadonly}}disabled{{endif isReadonly}} required>
-            <option value="programado">Programado</option>
-            <option value="en_ruta">En ruta</option>
-            <option value="finalizado">Finalizado</option>
-            <option value="cancelado">Cancelado</option>
-          </select>
-        </div>
-      </div>
+    <div class="form-group">
+        <label>Estado</label>
+        <select name="estado" {{isReadonly}}>
+            <option value="ACT">Activo</option>
+            <option value="INA">Inactivo</option>
+        </select>
+    </div>
 
-      <div class="row flex-end">
-        <a href="index.php?page=Mantenimientos-Viajes-Listado" class="secondary">Cancelar</a>
-
-        {{ifnot hideConfirm}}
-          <button
-            type="submit"
-            class="primary"
-            title="{{confirmToolTip}}">
+    {{ifnot hideConfirm}}
+        <button type="submit" class="btn">
             Confirmar
-          </button>
-        {{endifnot hideConfirm}}
-      </div>
-    </section>
-  </form>
-</section>
+        </button>
+    {{endifnot hideConfirm}}
+
+</form>
+
+<a href="index.php?page=Mantenimientos-Viajes-Listado" class="btn btn-secondary">
+    Volver al listado
+</a>
+
+</div>

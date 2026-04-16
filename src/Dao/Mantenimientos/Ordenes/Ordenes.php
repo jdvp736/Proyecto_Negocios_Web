@@ -6,7 +6,7 @@ use Dao\Table;
 
 class Ordenes extends Table
 {
-    // 🔥 LISTADO CON NOMBRE DE USUARIO
+
     public static function getAllOrdenes()
     {
         $sql = "SELECT 
@@ -25,7 +25,7 @@ class Ordenes extends Table
         return self::obtenerRegistros($sql, []);
     }
 
-    // 🔥 OBTENER ORDEN POR ID (CON USUARIO)
+
     public static function getOrdenById(int $id): array
     {
         $sqlstr = "SELECT 
@@ -44,7 +44,6 @@ class Ordenes extends Table
         return self::obtenerUnRegistro($sqlstr, ["id" => $id]);
     }
 
-    // 🔥 OBTENER ÚLTIMA ORDEN POR USUARIO
     public static function getOrdenByUsuario($usuario_id)
     {
         $sql = "SELECT 
@@ -67,7 +66,6 @@ class Ordenes extends Table
         ]);
     }
 
-    // 🔥 CREAR ORDEN
     public static function crearOrden($usuario_id, $total, $estado): int
     {
         $sqlstr = "INSERT INTO ordenes (usuario_id, total, estado)
@@ -80,7 +78,6 @@ class Ordenes extends Table
         ]);
     }
 
-    // 🔥 ACTUALIZAR ORDEN
     public static function actualizarOrden($id, $usuario_id, $total, $estado): int
     {
         $sqlstr = "UPDATE ordenes
@@ -97,7 +94,6 @@ class Ordenes extends Table
         ]);
     }
 
-    // 🔥 ELIMINAR ORDEN
     public static function eliminarOrden($id): int
     {
         $sqlstr = "DELETE FROM ordenes WHERE id = :id;";

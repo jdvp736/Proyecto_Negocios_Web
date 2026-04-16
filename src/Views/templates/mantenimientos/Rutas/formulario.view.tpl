@@ -29,8 +29,7 @@ body {
     margin-bottom:5px;
 }
 
-.form-group input,
-.form-group select {
+.form-group input {
     width:100%;
     padding:10px;
     border:1px solid #ccc;
@@ -38,8 +37,7 @@ body {
     transition:0.3s;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-group input:focus {
     border-color:#0d6efd;
     box-shadow:0 0 5px rgba(13,110,253,0.4);
 }
@@ -85,12 +83,12 @@ button.btn {
 }
 
 .btn-secondary {
-    background:#6c757d;
-    border-radius:0 ;
+    background:#6c757d !important;
+    border-radius:0 !important;
 }
 
 .btn-secondary:hover {
-    background:#495057 ;
+    background:#495057 !important;
 }
 
 @keyframes fadeIn {
@@ -103,35 +101,24 @@ button.btn {
 
 <h1>{{modeDsc}}</h1>
 
-<form method="post" action="index.php?page=Mantenimientos-Ordenes-Formulario&mode={{mode}}&id={{id}}">
+<form method="post" action="index.php?page=Mantenimientos-Rutas-Formulario&mode={{mode}}&id={{id}}">
 
     <input type="hidden" name="uuid" value="{{xsrf_token}}">
     <input type="hidden" name="id" value="{{id}}">
 
     <div class="form-group">
-        <label>Usuario</label>
-        <select name="usuario_id" {{isReadonly}}>
-            {{foreach usuarios}}
-                <option value="{{id}}" {{selected}}>
-                    {{nombre}} ({{email}})
-                </option>
-            {{endfor usuarios}}
-        </select>
+        <label>Origen</label>
+        <input type="text" name="origen" value="{{origen}}" {{isReadonly}}>
     </div>
 
     <div class="form-group">
-        <label>Total</label>
-        <input type="number" step="0.01" name="total" value="{{total}}" {{isReadonly}}>
+        <label>Destino</label>
+        <input type="text" name="destino" value="{{destino}}" {{isReadonly}}>
     </div>
 
     <div class="form-group">
-        <label>Estado</label>
-        <input type="text" name="estado" value="{{estado}}" {{isReadonly}}>
-    </div>
-
-    <div class="form-group">
-        <label>Fecha</label>
-        <input type="text" value="{{fecha}}" readonly>
+        <label>Distancia (km)</label>
+        <input type="number" step="0.01" name="distancia_km" value="{{distancia_km}}" {{isReadonly}}>
     </div>
 
     {{ifnot hideConfirm}}
@@ -142,7 +129,7 @@ button.btn {
 
 </form>
 
-<a href="index.php?page=Mantenimientos-Ordenes-Listado" class="btn btn-secondary">
+<a href="index.php?page=Mantenimientos-Rutas-Listado" class="btn btn-secondary">
     Volver al listado
 </a>
 

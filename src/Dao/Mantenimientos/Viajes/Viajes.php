@@ -6,7 +6,6 @@ use Dao\Table;
 
 class Viajes extends Table
 {
-    // 🔥 LISTADO COMPLETO
     public static function getAllViajes(): array
     {
         $sqlstr = "SELECT 
@@ -26,7 +25,6 @@ class Viajes extends Table
         return self::obtenerRegistros($sqlstr, []);
     }
 
-    // 🔥 OBTENER VIAJE POR ID (CON RUTA Y BUS)
     public static function getViajeById(int $id): array
     {
         $sqlstr = "SELECT 
@@ -46,7 +44,6 @@ class Viajes extends Table
         return self::obtenerUnRegistro($sqlstr, ["id" => $id]);
     }
 
-    // 🔥 CREAR VIAJE
     public static function crearViaje(
         $ruta_id,
         $bus_id,
@@ -66,7 +63,6 @@ class Viajes extends Table
         ]);
     }
 
-    // 🔥 ACTUALIZAR VIAJE
     public static function actualizarViaje(
         $id,
         $ruta_id,
@@ -93,7 +89,6 @@ class Viajes extends Table
         ]);
     }
 
-    // 🔥 ELIMINAR VIAJE
     public static function eliminarViaje($id): int
     {
         $sqlstr = "DELETE FROM viajes WHERE id = :id;";

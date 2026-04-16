@@ -85,12 +85,12 @@ button.btn {
 }
 
 .btn-secondary {
-    background:#6c757d;
-    border-radius:0 ;
+    background:#6c757d !important;
+    border-radius:0 !important;
 }
 
 .btn-secondary:hover {
-    background:#495057 ;
+    background:#495057 !important;
 }
 
 @keyframes fadeIn {
@@ -103,35 +103,39 @@ button.btn {
 
 <h1>{{modeDsc}}</h1>
 
-<form method="post" action="index.php?page=Mantenimientos-Ordenes-Formulario&mode={{mode}}&id={{id}}">
+<form method="post" action="index.php?page=Mantenimientos-Pagos-Formulario&mode={{mode}}&id={{id}}">
 
     <input type="hidden" name="uuid" value="{{xsrf_token}}">
     <input type="hidden" name="id" value="{{id}}">
 
     <div class="form-group">
-        <label>Usuario</label>
-        <select name="usuario_id" {{isReadonly}}>
-            {{foreach usuarios}}
+        <label>Orden</label>
+        <select name="orden_id" {{isReadonly}}>
+            {{foreach ordenes}}
                 <option value="{{id}}" {{selected}}>
-                    {{nombre}} ({{email}})
+                    Orden #{{id}}
                 </option>
-            {{endfor usuarios}}
+            {{endfor ordenes}}
         </select>
     </div>
 
     <div class="form-group">
-        <label>Total</label>
-        <input type="number" step="0.01" name="total" value="{{total}}" {{isReadonly}}>
+        <label>Método de Pago</label>
+        <input type="text" name="metodo" value="{{metodo}}" {{isReadonly}}>
     </div>
 
     <div class="form-group">
         <label>Estado</label>
-        <input type="text" name="estado" value="{{estado}}" {{isReadonly}}>
+        <select name="estado" {{isReadonly}}>
+            <option value="PEN">Pendiente</option>
+            <option value="PAG">Pagado</option>
+            <option value="CAN">Cancelado</option>
+        </select>
     </div>
 
     <div class="form-group">
-        <label>Fecha</label>
-        <input type="text" value="{{fecha}}" readonly>
+        <label>Transaction ID</label>
+        <input type="text" name="transaction_id" value="{{transaction_id}}" {{isReadonly}}>
     </div>
 
     {{ifnot hideConfirm}}
@@ -142,7 +146,7 @@ button.btn {
 
 </form>
 
-<a href="index.php?page=Mantenimientos-Ordenes-Listado" class="btn btn-secondary">
+<a href="index.php?page=Mantenimientos-Pagos-Listado" class="btn btn-secondary">
     Volver al listado
 </a>
 

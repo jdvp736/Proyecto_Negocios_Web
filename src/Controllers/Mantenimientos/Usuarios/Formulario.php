@@ -130,7 +130,7 @@ class Formulario extends PrivateController
 
         $this->nombre   = $tmp["nombre"];
         $this->email    = $tmp["email"];
-        $this->password = ''; // No se carga el password por seguridad
+        $this->password = '';
         $this->rol_id   = $tmp["rol_id"];
         $this->estado   = $tmp["estado"];
     }
@@ -165,6 +165,12 @@ class Formulario extends PrivateController
 
     private function GenerarViewData()
     {
+        // 🔥 AQUÍ ESTÁ LA CLAVE (selected)
+        foreach ($this->roles as &$rol) {
+            $rol["selected"] = ($rol["id"] == $this->rol_id) ? "selected" : "";
+        }
+        unset($rol);
+
         $this->viewData["mode"]     = $this->mode;
         $this->viewData["modeDsc"]  = sprintf($this->modes[$this->mode], $this->id);
         $this->viewData["id"]       = $this->id;
@@ -173,7 +179,6 @@ class Formulario extends PrivateController
         $this->viewData["rol_id"]   = $this->rol_id;
         $this->viewData["estado"]   = $this->estado;
         $this->viewData["roles"]    = $this->roles;
-        // El password nunca se manda a la vista por seguridad
 
         $this->viewData["isReadonly"]     = ($this->mode === 'DEL' || $this->mode === 'DSP') ? 'readonly' : '';
         $this->viewData["hideConfirm"]    = $this->mode === 'DSP';

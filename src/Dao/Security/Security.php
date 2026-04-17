@@ -163,20 +163,20 @@ class Security extends \Dao\Table
         return count($data) > 0;
     }
 
-
     static public function getFeatureByUsuario($userId, $fncod)
     {
-  
         if (strpos($fncod, "Controllers\\Home") !== false) {
             return true;
         }
 
- 
+        if (strpos($fncod, "Controllers\\Checkout") !== false) {
+            return true;
+        }
+
         if (strpos($fncod, "Controllers\\Mantenimientos") !== false) {
             return self::isAdmin($userId);
         }
 
-     
         $data = self::obtenerRegistros(
             "SELECT * FROM funciones_roles fr
              INNER JOIN roles_usuarios ru 

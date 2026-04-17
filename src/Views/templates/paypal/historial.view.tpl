@@ -31,11 +31,6 @@
                 </span>
             </p>
 
-            <a href="index.php?page=Checkout_Detalle&orden={{id}}"
-               style="color:#0d2b45; font-weight:bold;">
-               Ver Detalle 
-            </a>
-
         </div>
     </div>
     {{endfor historial}}

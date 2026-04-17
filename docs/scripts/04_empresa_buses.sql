@@ -26,7 +26,7 @@ CREATE TABLE `buses` (
 --
 
 INSERT INTO `buses` (`id`, `placa`, `tipo_id`, `estado`) VALUES
-(1, 'Prueba2', 2, 'Pendiente'),
+(1, 'Prueba3', 2, 'Listo'),
 (2, 'ABC123', 1, 'Disponible'),
 (3, 'XYZ789', 2, 'Disponible'),
 (4, 'BUS456', 1, 'Mantenimiento');
@@ -48,7 +48,10 @@ CREATE TABLE `carrito` (
 --
 
 INSERT INTO `carrito` (`id`, `usuario_id`, `creado_en`) VALUES
-(1, 6, '2026-04-16 06:24:16');
+(1, 6, '2026-04-16 10:52:20'),
+(2, 3, '2026-04-16 23:07:16'),
+(3, 24, '2026-04-17 00:40:33'),
+(4, 26, '2026-04-17 00:44:05');
 
 -- --------------------------------------------------------
 
@@ -70,7 +73,7 @@ CREATE TABLE `carrito_detalle` (
 --
 
 INSERT INTO `carrito_detalle` (`id`, `carrito_id`, `viaje_id`, `asiento_id`, `precio`, `cantidad`) VALUES
-(20, 1, 2, NULL, 180.00, 1);
+(8, 4, 1, NULL, 150.00, 1);
 
 -- --------------------------------------------------------
 
@@ -93,6 +96,8 @@ INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`) VALUES
 ('buses_DEL', 'Eliminar buses', 'ACT', 'CTR'),
 ('buses_INS', 'Insertar buses', 'ACT', 'CTR'),
 ('buses_UPD', 'Actualizar buses', 'ACT', 'CTR'),
+('Controllers\\Checkout\\Checkout', 'Controllers\\Checkout\\Checkout', 'ACT', 'ACT'),
+('Controllers\\Checkout\\Detalle', 'Controllers\\Checkout\\Detalle', 'ACT', 'ACT'),
 ('Controllers\\Checkout\\Historial', 'Controllers\\Checkout\\Historial', 'ACT', 'ACT'),
 ('Controllers\\Home\\Acerca', 'Controllers\\Home\\Acerca', 'ACT', 'ACT'),
 ('Controllers\\Home\\Contacto', 'Controllers\\Home\\Contacto', 'ACT', 'ACT'),
@@ -103,8 +108,11 @@ INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`) VALUES
 ('Controllers\\Mantenimientos\\Libros\\Listado', 'Controllers\\Mantenimientos\\Libros\\Listado', 'ACT', 'CTR'),
 ('Controllers\\Mantenimientos\\Ordenes\\Formulario', 'Controllers\\Mantenimientos\\Ordenes\\Formulario', 'ACT', 'ACT'),
 ('Controllers\\Mantenimientos\\Ordenes\\Listado', 'Listado ordenes', 'ACT', 'CTR'),
+('Controllers\\Mantenimientos\\Pagos\\Formulario', 'Controllers\\Mantenimientos\\Pagos\\Formulario', 'ACT', 'ACT'),
 ('Controllers\\Mantenimientos\\Pagos\\Listado', 'Listado pagos', 'ACT', 'CTR'),
+('Controllers\\Mantenimientos\\Rutas\\Formulario', 'Controllers\\Mantenimientos\\Rutas\\Formulario', 'ACT', 'ACT'),
 ('Controllers\\Mantenimientos\\Rutas\\Listado', 'Listado rutas', 'ACT', 'CTR'),
+('Controllers\\Mantenimientos\\Usuarios\\Formulario', 'Controllers\\Mantenimientos\\Usuarios\\Formulario', 'ACT', 'ACT'),
 ('Controllers\\Mantenimientos\\Usuarios\\Listado', 'Listado usuarios', 'ACT', 'CTR'),
 ('Controllers\\Mantenimientos\\Viajes\\Formulario', 'Controllers\\Mantenimientos\\Viajes\\Formulario', 'ACT', 'ACT'),
 ('Controllers\\Mantenimientos\\Viajes\\Listado', 'Controllers\\Mantenimientos\\Viajes\\Listado', 'ACT', 'ACT'),
@@ -112,8 +120,20 @@ INSERT INTO `funciones` (`fncod`, `fndsc`, `fnest`, `fntyp`) VALUES
 ('Menu_Historial', 'Menu_Historial', 'ACT', 'ACT'),
 ('Menu_Mantenimientos', 'Menu_Mantenimientos', 'ACT', 'ACT'),
 ('Menu_PaymentCheckout', 'Menu_PaymentCheckout', 'ACT', 'MNU'),
+('ordenes_DEL', 'ordenes_DEL', 'ACT', 'ACT'),
+('ordenes_INS', 'ordenes_INS', 'ACT', 'ACT'),
 ('ordenes_UPD', 'ordenes_UPD', 'ACT', 'ACT'),
-('PF_SEGURIDAD_CONTROL', 'Acceso Seguridad', 'ACT', 'MNU');
+('pagos_DEL', 'pagos_DEL', 'ACT', 'ACT'),
+('pagos_INS', 'pagos_INS', 'ACT', 'ACT'),
+('pagos_UPD', 'pagos_UPD', 'ACT', 'ACT'),
+('PF_SEGURIDAD_CONTROL', 'Acceso Seguridad', 'ACT', 'MNU'),
+('rutas_DEL', 'rutas_DEL', 'ACT', 'ACT'),
+('rutas_INS', 'rutas_INS', 'ACT', 'ACT'),
+('rutas_UPD', 'rutas_UPD', 'ACT', 'ACT'),
+('usuarios_UPD', 'usuarios_UPD', 'ACT', 'ACT'),
+('viajes_DEL', 'viajes_DEL', 'ACT', 'ACT'),
+('viajes_INS', 'viajes_INS', 'ACT', 'ACT'),
+('viajes_UPD', 'viajes_UPD', 'ACT', 'ACT');
 
 -- --------------------------------------------------------
 
@@ -153,30 +173,27 @@ INSERT INTO `funciones_roles` (`fncod`, `rolescod`, `fnrolest`) VALUES
 ('ordenes_INS', 'admin', 'ACT'),
 ('ordenes_UPD', 'admin', 'ACT'),
 ('ordenes_DEL', 'admin', 'ACT'),
-('PF_SEGURIDAD_CONTROL', 'admin', 'ACT'),
-('Menu_PaymentCheckout', '1', 'ACT'),
-('Menu_PaymentCheckout', 'admin', 'ACT'),
-('Controllers\\Pf_Seguridad\\Control', 'admin', 'ACT'),
-('buses_INS', 'admin', 'ACT'),
-('buses_UPD', 'admin', 'ACT'),
-('buses_DEL', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Buses\\Listado', 'admin', 'ACT'),
-('buses_INS', 'admin', 'ACT'),
-('buses_UPD', 'admin', 'ACT'),
-('buses_DEL', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Buses\\Formulario', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Viajes\\Listado', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Pagos\\Listado', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Ordenes\\Listado', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Rutas\\Listado', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Usuarios\\Listado', 'admin', 'ACT'),
-('Controllers\\Mantenimientos\\Dashboard\\Dashboard', 'admin', 'ACT'),
-('ordenes_INS', 'admin', 'ACT'),
-('ordenes_UPD', 'admin', 'ACT'),
-('ordenes_DEL', 'admin', 'ACT'),
-('Menu_Historial', 'ADMIN', 'ACT'),
-('Menu_Historial', 'ADMIN', 'ACT'),
-('Controllers\\Checkout\\Historial', 'ADMIN', 'ACT');
+('pagos_INS', 'admin', 'ACT'),
+('pagos_UPD', 'admin', 'ACT'),
+('pagos_DEL', 'admin', 'ACT'),
+('Controllers\\Mantenimientos\\Pagos\\Formulario', 'admin', 'ACT'),
+('rutas_INS', 'admin', 'ACT'),
+('rutas_UPD', 'admin', 'ACT'),
+('rutas_DEL', 'admin', 'ACT'),
+('Controllers\\Mantenimientos\\Rutas\\Formulario', 'admin', 'ACT'),
+('usuarios_INS', 'admin', 'ACT'),
+('usuarios_UPD', 'admin', 'ACT'),
+('usuarios_DEL', 'admin', 'ACT'),
+('Controllers\\Mantenimientos\\Usuarios\\Formulario', 'admin', 'ACT'),
+('viajes_INS', 'admin', 'ACT'),
+('viajes_UPD', 'admin', 'ACT'),
+('viajes_DEL', 'admin', 'ACT'),
+('Controllers\\Mantenimientos\\Viajes\\Formulario', 'admin', 'ACT'),
+('Controllers\\Checkout\\Checkout', 'usuario', 'ACT'),
+('Controllers\\Checkout\\Checkout', 'admin', 'ACT'),
+('Controllers\\Checkout\\Checkout', 'admin', 'ACT'),
+('Controllers\\Checkout\\Checkout', '1', 'ACT'),
+('Controllers\\Checkout\\Historial', 'admin', 'ACT');
 
 -- --------------------------------------------------------
 
@@ -210,13 +227,13 @@ CREATE TABLE `ordenes` (
 --
 
 INSERT INTO `ordenes` (`id`, `usuario_id`, `total`, `estado`, `fecha`) VALUES
-(1, 1, 150.00, 'Pagado', '2026-04-15 12:55:14'),
-(2, 1, 180.00, 'Pendiente', '2026-04-15 12:55:14'),
-(3, 6, 150.00, 'COMPLETED', '2026-04-16 08:29:25'),
-(4, 6, 150.00, 'COMPLETED', '2026-04-16 08:33:14'),
-(5, 6, 150.00, 'COMPLETED', '2026-04-16 08:34:06'),
-(6, 6, 150.00, 'COMPLETED', '2026-04-16 09:43:58'),
-(7, 6, 150.00, 'COMPLETED', '2026-04-16 09:57:08');
+(1, 1, 150.00, 'Pagado', '2026-04-15 06:55:14'),
+(2, 22, 180.00, 'Pendiente', '2026-04-15 06:55:14'),
+(3, 3, 150.00, 'COMPLETED', '2026-04-16 23:39:11'),
+(4, 3, 150.00, 'COMPLETED', '2026-04-16 23:40:47'),
+(5, 3, 180.00, 'COMPLETED', '2026-04-16 23:41:15'),
+(6, 6, 240.00, 'COMPLETED', '2026-04-17 00:00:38'),
+(7, 24, 510.00, 'COMPLETED', '2026-04-17 00:45:50');
 
 -- --------------------------------------------------------
 
@@ -230,7 +247,7 @@ CREATE TABLE `orden_detalle` (
   `viaje_id` int(11) DEFAULT NULL,
   `asiento_id` int(11) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
-  `cantidad` int(11) DEFAULT 1
+  `cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -238,9 +255,11 @@ CREATE TABLE `orden_detalle` (
 --
 
 INSERT INTO `orden_detalle` (`id`, `orden_id`, `viaje_id`, `asiento_id`, `precio`, `cantidad`) VALUES
-(1, 5, 1, NULL, 150.00, 1),
-(2, 6, 1, NULL, 150.00, 1),
-(3, 7, 1, NULL, 150.00, 1);
+(1, 4, 1, NULL, 150.00, 1),
+(2, 5, 2, NULL, 180.00, 1),
+(3, 6, 3, NULL, 120.00, 2),
+(4, 7, 1, NULL, 150.00, 1),
+(5, 7, 2, NULL, 180.00, 2);
 
 -- --------------------------------------------------------
 
@@ -262,8 +281,8 @@ CREATE TABLE `pagos` (
 --
 
 INSERT INTO `pagos` (`id`, `orden_id`, `metodo`, `estado`, `transaction_id`, `fecha`) VALUES
-(1, 1, 'PayPal', 'Completado', 'TXN123456', '2026-04-15 12:55:26'),
-(2, 2, 'Tarjeta', 'Pendiente', 'TXN789012', '2026-04-15 12:55:26');
+(1, 1, 'PayPal', 'Completado', 'TXN123456', '2026-04-15 06:55:26'),
+(2, 2, 'Tarjeta', 'Pendiente', 'TXN789012', '2026-04-15 06:55:26');
 
 -- --------------------------------------------------------
 
@@ -313,19 +332,9 @@ INSERT INTO `roles_usuarios` (`usercod`, `rolescod`, `roleuserest`) VALUES
 (22, 'admin', 'INA'),
 (22, 'admin', 'INA'),
 (22, 'admin', 'ACT'),
-(1, 'admin', 'ACT'),
-(3, 'admin', 'INA'),
-(6, 'admin', 'ACT'),
-(3, 'usuario', 'ACT'),
-(2, '1', 'ACT'),
-(2, 'admin', 'ACT'),
-(22, 'usuario', 'INA'),
-(22, 'admin', 'INA'),
-(22, 'admin', 'INA'),
-(22, 'admin', 'INA'),
-(22, 'admin', 'INA'),
-(22, 'admin', 'ACT'),
-(23, 'usuario', 'ACT');
+(24, 'usuario', 'ACT'),
+(25, 'usuario', 'ACT'),
+(26, 'usuario', 'ACT');
 
 -- --------------------------------------------------------
 
@@ -393,11 +402,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol_id`, `estado`, `creado_en`) VALUES
-(1, 'Andrea', 'test123@gmaicom', '123456', 1, 1, '2026-04-11 09:18:07'),
-(3, 'jdvp733', 'jdvp733@gmail.com', '$2y$10$0ulVmlThnNlxtJUJPuWsveXXJtw7VnP4VCNBYJL7erlVugjnYggZy', 2, 1, '2026-04-12 10:01:37'),
-(6, 'admin', 'admin@admin.com', '$2y$10$tTtQOAGiKFIDCIxdb.6WUuV1h5fXuLuqisSPL5qmEGtu5ZDOzGpum', 1, 1, '2026-04-12 10:29:50'),
-(22, 'j4', 'j4@gmail.com', '$2y$10$USjS0n.6SLCoGUkbAzDXIe.sus/8lxnDEyersK5do0QV7H1YWCJiS', 1, 1, '2026-04-12 13:11:26'),
-(23, 'ricardogsosa0411', 'ricardogsosa0411@gmail.com', '$2y$10$aUZcJv5qIG5bAaUzu/RgpepQ.ief3zRGCK2qT48DiQTSjL/MTstxi', 2, 1, '2026-04-16 05:03:11');
+(1, 'Andrea', 'test123@gmaicom', '123456', 1, 1, '2026-04-11 03:18:07'),
+(3, 'jdvp733', 'jdvp733@gmail.com', '$2y$10$0ulVmlThnNlxtJUJPuWsveXXJtw7VnP4VCNBYJL7erlVugjnYggZy', 2, 1, '2026-04-12 04:01:37'),
+(6, 'admin', 'admin@admin.com', '$2y$10$tTtQOAGiKFIDCIxdb.6WUuV1h5fXuLuqisSPL5qmEGtu5ZDOzGpum', 1, 1, '2026-04-12 04:29:50'),
+(22, 'j4', 'j4@gmail.com', '$2y$10$USjS0n.6SLCoGUkbAzDXIe.sus/8lxnDEyersK5do0QV7H1YWCJiS', 1, 1, '2026-04-12 07:11:26'),
+(24, 'j5', 'j5@gmail.com', '$2y$10$6T7J83NsYaE2IXJlBRSF7ejtpX9TvdOyfPp23GbhLh.qnIZ./AK.C', 2, 1, '2026-04-17 00:40:03'),
+(25, 'j6', 'j6@gmail.com', '$2y$10$gq4zD13MTjCTPyExj1yWMOHUoNhFgk/DI/9MczSmvztufjxhj9s4G', 2, 1, '2026-04-17 00:41:47'),
+(26, 'j8', 'j8@gmail.com', '$2y$10$14zEnasZfIZtjhKSE/eCD.mNf6fZ2lEnIVoSxYIF/x6z/3UlrWwT6', 2, 1, '2026-04-17 00:43:28');
 
 -- --------------------------------------------------------
 
@@ -421,7 +432,8 @@ CREATE TABLE `viajes` (
 INSERT INTO `viajes` (`id`, `ruta_id`, `bus_id`, `fecha_salida`, `precio`, `estado`) VALUES
 (1, 1, 1, '2026-05-01 08:00:00', 150.00, 'Activo'),
 (2, 2, 2, '2026-05-02 09:00:00', 180.00, 'Activo'),
-(3, 3, 1, '2026-05-03 07:30:00', 120.00, 'Activo');
+(3, 3, 2, '2026-05-17 07:30:00', 130.00, 'ACT'),
+(4, 3, 2, '2026-04-28 18:27:00', 190.00, 'ACT');
 
 --
 -- Índices para tablas volcadas
@@ -542,19 +554,19 @@ ALTER TABLE `asientos`
 -- AUTO_INCREMENT de la tabla `buses`
 --
 ALTER TABLE `buses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito_detalle`
 --
 ALTER TABLE `carrito_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
@@ -566,19 +578,19 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `ordenes`
 --
 ALTER TABLE `ordenes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_detalle`
 --
 ALTER TABLE `orden_detalle`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -590,7 +602,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `rutas`
 --
 ALTER TABLE `rutas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos_bus`
@@ -602,13 +614,13 @@ ALTER TABLE `tipos_bus`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `viajes`
 --
 ALTER TABLE `viajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
@@ -679,3 +691,4 @@ ALTER TABLE `viajes`
   ADD CONSTRAINT `viajes_ibfk_1` FOREIGN KEY (`ruta_id`) REFERENCES `rutas` (`id`),
   ADD CONSTRAINT `viajes_ibfk_2` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`);
 COMMIT;
+
